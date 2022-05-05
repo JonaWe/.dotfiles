@@ -12,10 +12,9 @@ plugins=(
   tmux
 )
 
-ZSH_THEME="robbyrussell"
+#ZSH_THEME="robbyrussell"
 #ZSH_THEME="rkj-repos"
-#ZSH_THEME="xiong-chiamiov-plus"
-#ZSH_THEME="xiong-chiamiov-plus"
+ZSH_THEME="xiong-chiamiov-plus"
 
 ZSH_THEME_RANDOM_CANDIDATES=(
   "agnoster"
