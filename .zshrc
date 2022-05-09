@@ -14,7 +14,8 @@ plugins=(
 
 #ZSH_THEME="robbyrussell"
 #ZSH_THEME="rkj-repos"
-ZSH_THEME="xiong-chiamiov-plus"
+#ZSH_THEME="xiong-chiamiov-plus"
+ZSH_THEME="agnoster"
 
 ZSH_THEME_RANDOM_CANDIDATES=(
   "agnoster"
@@ -29,7 +30,7 @@ ZSH_THEME_RANDOM_CANDIDATES=(
 ENABLE_CORRECTION=true
 CASE_SENSITIVE=false
 
-ZSH_TMUX_AUTOSTART=true
+#ZSH_TMUX_AUTOSTART=true
 
 zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 zstyle ':omz:update' frequency 14
