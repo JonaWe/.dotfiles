@@ -148,8 +148,10 @@ imap jk <Esc>
 let mapleader = " "
 
 " Open vim RC with leader v
-nnoremap <leader>v :e $MYVIMRC<CR>
-nnoremap <leader>i :source $MYVIMRC<CR>
+nnoremap <leader>ev :e $MYVIMRC<CR>
+nnoremap <leader>ez :e ~/.zshrc<CR>
+nnoremap <leader>et :e ~/.tmux.conf<CR>
+nnoremap <leader>rv :source $MYVIMRC<CR>
 
 nnoremap <leader>p :lua require"nvim-helloworld"<CR>
 " save with c-s
@@ -179,7 +181,7 @@ nnoremap <leader>m :MaximizerToggle!<CR>
 
 " kassio/neoterm
 let g:neoterm_default_mod = 'vertical'
-let g:neoterm_size = 16
+let g:neoterm_size = 12
 let g:neoterm_default_mod = 'botright'
 let g:neoterm_autoinsert = 1
 nnoremap <c-n> :Ttoggle<CR>
@@ -310,7 +312,7 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 " Show all diagnostics.
 nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
 " Manage extensions.
-nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
+"nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
 " Show commands.
 nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
 " Find symbol of current document.
@@ -347,8 +349,6 @@ nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 "nmap <leader>gs :G<CR>
 nmap <leader>gs :G<CR>
 
-nmap <leader>fc :q<CR>
-
 " JumpTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gt <Plug>(coc-type-definition)
@@ -362,10 +362,10 @@ xmap <leader>a  <Plug>(coc-codeaction-selected)
 nmap <leader>a  <Plug>(coc-codeaction-selected)
 
 " Remap keys for applying codeAction to the current buffer.
-nmap <leader>ac  <Plug>(coc-codeaction)
+"nmap <leader>ac  <Plug>(coc-codeaction)
 " Apply AutoFix to problem on the current line.
 
-nmap <leader>qf  <Plug>(coc-fix-current)
+"nmap <leader>qf  <Plug>(coc-fix-current)
 
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
