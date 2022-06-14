@@ -3,69 +3,69 @@
 " | PLUGINS                                     |
 " |                                             |
 " +---------------------------------------------+
-call plug#begin(stdpath('data') . '/plugged')
+" call plug#begin(stdpath('data') . '/plugged')
 " Color theme
 " Plug 'gruvbox-community/gruvbox'
 " Plug 'morhetz/gruvbox'
 " Plug 'joshdick/onedark.vim'
 " Plug 'tomasiser/vim-code-dark'
-Plug 'marko-cerovac/material.nvim'
+" Plug 'marko-cerovac/material.nvim'
 
 " C support
-Plug 'jackguo380/vim-lsp-cxx-highlight'
+" Plug 'jackguo380/vim-lsp-cxx-highlight'
 
 " status line plugin
 "Plug 'itchyny/lightline.vim'
 "Plug 'itchyny/vim-gitbranch'
 
-Plug 'szw/vim-maximizer'
-Plug 'kassio/neoterm'
+"Plug 'szw/vim-maximizer'
+"Plug 'kassio/neoterm'
 
-Plug 'xiyaowong/nvim-transparent'
+"Plug 'xiyaowong/nvim-transparent'
 
 " Telescope
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
-Plug 'nvim-telescope/telescope-fzy-native.nvim'
+"Plug 'nvim-lua/plenary.nvim'
+"Plug 'nvim-telescope/telescope.nvim'
+"Plug 'nvim-telescope/telescope-fzy-native.nvim'
 
 " Tresitter
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+"Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 
 " lsp default config
-Plug 'neovim/nvim-lspconfig'
+"Plug 'neovim/nvim-lspconfig'
 
 " Vim surround plugin
-Plug 'tpope/vim-surround'
+"Plug 'tpope/vim-surround'
 
 " coc
 " Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " github copilot
-Plug 'github/copilot.vim'
+"Plug 'github/copilot.vim'
 
 " tmux vim navitation
-Plug 'christoomey/vim-tmux-navigator'
+"Plug 'christoomey/vim-tmux-navigator'
 
 " Formatter
-Plug 'sbdchd/neoformat'
+"Plug 'sbdchd/neoformat'
 
 " Git plugins
-Plug 'tpope/vim-fugitive'
-Plug 'vim-airline/vim-airline'
-Plug 'airblade/vim-gitgutter'
+"Plug 'tpope/vim-fugitive'
+"Plug 'vim-airline/vim-airline'
+"Plug 'airblade/vim-gitgutter'
 
 " JS/TS Plugins
-Plug 'pangloss/vim-javascript'
-Plug 'leafgarland/typescript-vim'
-Plug 'peitalin/vim-jsx-typescript'
-Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+"Plug 'pangloss/vim-javascript'
+"Plug 'leafgarland/typescript-vim'
+"Plug 'peitalin/vim-jsx-typescript'
+"Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 
 "
-Plug 'ThePrimeagen/vim-be-good'
+"Plug 'ThePrimeagen/vim-be-good'
 
-Plug 'RRethy/vim-illuminate'
+"Plug 'RRethy/vim-illuminate'
 
-call plug#end()
+"call plug#end()
 
 " +---------------------------------------------+
 " |                                             |
