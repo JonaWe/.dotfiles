@@ -5,6 +5,7 @@ if fn.empty(fn.glob(install_path)) > 0 then
 end
 
 return require('packer').startup(function()
+  use 'wbthomason/packer.nvim'
 
   -- Color theme
   use 'marko-cerovac/material.nvim'
@@ -13,8 +14,8 @@ return require('packer').startup(function()
   use 'jackguo380/vim-lsp-cxx-highlight'
 
   -- status line plugin
-  --Plug 'itchyny/lightline.vim'
-  --Plug 'itchyny/vim-gitbranch'
+  use 'itchyny/lightline.vim'
+  use 'itchyny/vim-gitbranch'
 
   use 'szw/vim-maximizer'
   use 'kassio/neoterm'
@@ -22,9 +23,14 @@ return require('packer').startup(function()
   use 'xiyaowong/nvim-transparent'
 
   -- Telescope
-  use 'nvim-lua/plenary.nvim'
-  use 'nvim-telescope/telescope.nvim'
-  use 'nvim-telescope/telescope-fzy-native.nvim'
+  use {
+    'nvim-telescope/telescope.nvim',
+    requires = { 'nvim-lua/plenary.nvim' }
+  }
+  use {
+    'nvim-telescope/telescope-fzy-native.nvim',
+    run = 'make'
+  }
 
   -- Tresitter
   use {
@@ -35,13 +41,8 @@ return require('packer').startup(function()
   -- lsp default config
   use 'neovim/nvim-lspconfig'
 
-  -- Vim surround plugin
-  use 'tpope/vim-surround'
-
-  -- coc
-  -- Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-  -- github copilot
+  use 'tpope/vim-surround' -- motions for ", ' and html tags
+  use 'tpope/vim-commentary' -- comment out code
   use 'github/copilot.vim'
 
   -- tmux vim navitation
@@ -52,18 +53,16 @@ return require('packer').startup(function()
 
   -- Git plugins
   use 'tpope/vim-fugitive'
-  use 'vim-airline/vim-airline'
-  use 'airblade/vim-gitgutter'
+  --use 'vim-airline/vim-airline'
+  --use 'airblade/vim-gitgutter'
+  use {
+    'lewis6991/gitsigns.nvim',
+    requires = { 'nvim-lua/plenary.nvim' }
+  }
 
-  -- JS/TS Plugins
-  use 'pangloss/vim-javascript'
-  use 'leafgarland/typescript-vim'
-  use 'peitalin/vim-jsx-typescript'
-  --use 'styled-components/vim-styled-components', { 'branch': 'main' }
+  use 'RRethy/vim-illuminate' -- highlight the current word
 
-  use 'ThePrimeagen/vim-be-good'
 
-  use 'RRethy/vim-illuminate'
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
   if packer_bootstrap then
