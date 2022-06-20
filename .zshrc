@@ -85,5 +85,6 @@ alias config="/usr/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME"
 alias vim="nvim"
 alias v="nvim"
 
-alias zshconfig="$EDITOR ~/.zshrc"
+alias zshconf="$EDITOR ~/.zshrc"
 alias ohmyzsh="$EDITOR ~/.oh-my-zsh"
+alias i3conf="$EDITOR ~/.i3/config"
