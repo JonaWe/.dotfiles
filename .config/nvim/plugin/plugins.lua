@@ -38,6 +38,8 @@ return require('packer').startup(function()
     run = ':TSUpdate'
   }
 
+  use 'fladson/vim-kitty'
+
   -- lsp default config
   use 'neovim/nvim-lspconfig'
 
