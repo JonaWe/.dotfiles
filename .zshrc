@@ -86,5 +86,6 @@ alias vim="nvim"
 alias v="nvim"
 
 alias zshconf="$EDITOR ~/.zshrc"
-alias ohmyzsh="$EDITOR ~/.oh-my-zsh"
+alias omzconf="$EDITOR ~/.oh-my-zsh"
 alias i3conf="$EDITOR ~/.i3/config"
+alias kittyconf="$EDITOR ~/.config/kitty/kitty.conf"
