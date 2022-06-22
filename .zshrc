@@ -89,3 +89,9 @@ alias zshconf="$EDITOR ~/.zshrc"
 alias omzconf="$EDITOR ~/.oh-my-zsh"
 alias i3conf="$EDITOR ~/.i3/config"
 alias kittyconf="$EDITOR ~/.config/kitty/kitty.conf"
+
+alias ls='lsd'
+alias l='ls -l'
+alias la='ls -a'
+alias lla='ls -la'
+alias lt='ls --tree'
