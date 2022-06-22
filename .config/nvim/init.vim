@@ -8,8 +8,9 @@
 syntax on
 " colorscheme onedark
 " colorscheme gruvbox
-colorscheme material
-let g:material_style = "darker"
+colorscheme onedarkpro
+" colorscheme material
+" let g:material_style = "darker"
 " colorscheme codedark
 set background=dark
 

@@ -8,7 +8,8 @@ return require('packer').startup(function()
   use 'wbthomason/packer.nvim'
 
   -- Color theme
-  use 'marko-cerovac/material.nvim'
+  --use 'marko-cerovac/material.nvim'
+  use 'olimorris/onedarkpro.nvim'
 
   -- C support
   use 'jackguo380/vim-lsp-cxx-highlight'
