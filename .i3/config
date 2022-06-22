@@ -333,9 +333,10 @@ set_from_resource $term_color15    color15
 # Start i3bar to display a workspace bar (plus the system information i3status if available)
 bar {
   status_command ~/.config/bumblebee-status/bumblebee-status \
-    -m network_traffic disk cpu sensors memory pasink time date \
+    -m disk cpu sensors memory pasink time date \
     -p time.format="%H:%M" \
     -t iceberg-rainbow
+#    -m network_traffic disk cpu sensors memory pasink time date \
 #	i3bar_command i3bar
 #	status_command i3status
 	position bottom
@@ -347,6 +348,7 @@ bar {
 	bindsym button4 nop
 	bindsym button5 nop
 #   font xft:URWGothic-Book 11
+  font xft:FiraCode Nerd Font Mono 11
 	strip_workspace_numbers yes
 
     colors {
