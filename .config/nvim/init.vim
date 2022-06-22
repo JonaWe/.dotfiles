@@ -88,6 +88,8 @@ let mapleader = " "
 
 " Open vim RC with leader v
 nnoremap <leader>ev :e $MYVIMRC<CR>
+nnoremap <leader>ep :e ~/.config/nvim/plugin/plugins.lua<CR>
+nnoremap <leader>el :e ~/.config/nvim/plugin/lsp-config.lua<CR>
 nnoremap <leader>ez :e ~/.zshrc<CR>
 nnoremap <leader>et :e ~/.tmux.conf<CR>
 nnoremap <leader>rv :source $MYVIMRC<CR>

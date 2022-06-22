@@ -38,14 +38,23 @@ return require('packer').startup(function()
     run = ':TSUpdate'
   }
 
+  -- syntax hilighting for kitty config
   use 'fladson/vim-kitty'
 
+  -- hex code hilighter
+  --use {
+  --  'norcalli/nvim-colorizer.lua'
+  --}
+
   -- lsp default config
-  use 'neovim/nvim-lspconfig'
+  use {
+    'williamboman/nvim-lsp-installer',
+    'neovim/nvim-lspconfig'
+  }
 
   use 'tpope/vim-surround' -- motions for ", ' and html tags
   use 'tpope/vim-commentary' -- comment out code
-  use 'github/copilot.vim'
+  --use 'github/copilot.vim'
 
   -- tmux vim navitation
   use 'christoomey/vim-tmux-navigator'
