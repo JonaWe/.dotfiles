@@ -12,6 +12,9 @@ set $mod Mod4
 
 set $term kitty
 
+# updates keyboard layout to german code jona
+bindsym $mod+Ctrl+k exec $HOME/.kbl/update.sh
+
 # set default desktop layout (default is tiling)
 # workspace_layout tabbed <stacking|tabbed>
 
