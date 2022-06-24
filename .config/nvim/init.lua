@@ -112,22 +112,30 @@ require('packer').startup(function()
     }
 
     -- autocomplete
-
     use 'hrsh7th/nvim-cmp'
     use 'hrsh7th/cmp-nvim-lsp'
     use 'hrsh7th/cmp-buffer'
     use 'hrsh7th/cmp-path'
     use 'hrsh7th/cmp-cmdline'
+    use 'saadparwaiz1/cmp_luasnip' -- Snippets source for nvim-cmp
+    use 'L3MON4D3/LuaSnip' -- Snippets plugin
 
-    --use 'saadparwaiz1/cmp_luasnip' -- Snippets source for nvim-cmp
-    --use 'L3MON4D3/LuaSnip' -- Snippets plugin
-
-    --use 'tpope/vim-surround' -- motions for ", ' and html tags
-    --use 'tpope/vim-commentary' -- comment out code
+    use 'tpope/vim-surround' -- motions for ", ' and html tags
+    use 'tpope/vim-commentary' -- comment out code
     --use 'github/copilot.vim'
 
     -- tmux vim navitation
     use 'christoomey/vim-tmux-navigator'
+
+    use {
+        "windwp/nvim-autopairs",
+        config = function() require("nvim-autopairs").setup({}) end
+    }
+
+    use {
+        'windwp/nvim-ts-autotag',
+        config = function() require('nvim-ts-autotag').setup() end
+    }
 
     -- Formatter
     --use 'sbdchd/neoformat'
@@ -188,6 +196,9 @@ require('nvim-treesitter.configs').setup({
         additional_vim_regex_highlighting = false,
     },
     indend = {
+        enable = true,
+    },
+    autotag = {
         enable = true,
     },
     incremental_selection = {
