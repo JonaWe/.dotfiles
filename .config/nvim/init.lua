@@ -1,3 +1,5 @@
+-- vim:fileencoding=utf-8:foldmethod=marker
+
 -- General {{{
 
 local opt = vim.opt
@@ -44,7 +46,6 @@ opt.spellfile = '$HOME/neovim/spellfile/en.utf-8.add'
 
 
 -- }}}
-
 
 
 -- Plugnin {{{
@@ -163,6 +164,7 @@ require('packer').startup(function()
 end)
 
 -- }}}
+
 
 -- Treesitter {{{
 require('nvim-treesitter.configs').setup({
@@ -318,7 +320,6 @@ lspconfig.cssmodules_ls.setup({
 -- }}}
 
 
-
 -- Autocomplete {{{
 
 -- Add additional capabilities supported by nvim-cmp
@@ -381,7 +382,6 @@ cmp.setup {
 }
 
 -- }}}
-
 
 
 -- Keymaps {{{
