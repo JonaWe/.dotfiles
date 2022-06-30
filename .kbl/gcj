@@ -7,9 +7,10 @@ xkb_symbols "basic" {
 
     name[Group1]="GCJ";
 
-    key <ESC>   {[ Caps_Lock ]};
+    key <ESC>   {[ Escape ]};
     key <CAPS>  {[ Control_L ]};
     key <LCTL>  {[ Escape ]};
+    key <SCLK>   {[ Caps_Lock ]};
 
     key <TLDE>	{[ asciicircum, degree ]};
     key <AE01>	{[ 1, exclam ]};
