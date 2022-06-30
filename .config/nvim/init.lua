@@ -27,10 +27,12 @@ opt.tabstop = 4
 opt.softtabstop = 4
 opt.shiftwidth = 4
 
+opt.laststatus = 3
+
 opt.swapfile = false
 opt.backup = false
 opt.writebackup = false
-opt.undodir = '$HOME/.vim/undodir'
+opt.undodir = os.getenv('HOME') .. '/.vim/undodir'
 opt.undofile = true
 
 opt.scrolloff = 6
@@ -123,7 +125,7 @@ require('packer').startup(function()
 
     use 'tpope/vim-surround' -- motions for ", ' and html tags
     use 'tpope/vim-commentary' -- comment out code
-    --use 'github/copilot.vim'
+    use 'github/copilot.vim'
 
     -- tmux vim navitation
     use 'christoomey/vim-tmux-navigator'
@@ -219,7 +221,7 @@ require('nvim-treesitter.configs').setup({
 -- }}}
 
 
--- LSP Setup {{{
+-- LSP and Autocomplete Setup {{{
 
 require('nvim-lsp-installer').setup({
     automatic_installation = true,
@@ -251,11 +253,11 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
   vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
   --vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-  vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
-  vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
-  vim.keymap.set('n', '<space>wl', function()
-    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  end, bufopts)
+  --vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
+  --vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
+  --vim.keymap.set('n', '<space>wl', function()
+  --  print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+  --end, bufopts)
   vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
   vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
   vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
@@ -269,18 +271,23 @@ local lsp_flags = {
 
 local lspconfig = require('lspconfig')
 
-lspconfig.pyright.setup({
+
+-- Add additional capabilities supported by nvim-cmp
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+
+
+local servers = { 'pyright', 'clangd', 'volar', 'sumneko_lua', 'rust_analyzer', 'jdtls', 'tsserver', 'tailwindcss', 'eslint', 'cssmodules_ls' }
+
+-- Enable some language servers with the additional completion capabilities offered by nvim-cmp
+for _, lsp in ipairs(servers) do
+  lspconfig[lsp].setup({
     on_attach = on_attach,
+    capabilities = capabilities,
     flags = lsp_flags,
 })
-lspconfig.clangd.setup({
-    on_attach = on_attach,
-    flags = lsp_flags,
-})
-lspconfig.volar.setup({
-    on_attach = on_attach,
-    flags = lsp_flags,
-})
+  end
+
 lspconfig.sumneko_lua.setup({
     on_attach = on_attach,
     flags = lsp_flags,
@@ -292,53 +299,10 @@ lspconfig.sumneko_lua.setup({
         }
     }
 })
-lspconfig.rust_analyzer.setup({
-    on_attach = on_attach,
-    flags = lsp_flags,
-})
-lspconfig.jdtls.setup({
-    on_attach = on_attach,
-    flags = lsp_flags,
-})
-lspconfig.tsserver.setup({
-    on_attach = on_attach,
-    flags = lsp_flags,
-})
-lspconfig.tailwindcss.setup({
-    on_attach = on_attach,
-    flags = lsp_flags,
-})
-lspconfig.eslint.setup({
-    on_attach = on_attach,
-    flags = lsp_flags,
-})
-lspconfig.cssmodules_ls.setup({
-    on_attach = on_attach,
-    flags = lsp_flags,
-})
 
--- }}}
-
-
--- Autocomplete {{{
-
--- Add additional capabilities supported by nvim-cmp
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
-
-local lspconfig = require('lspconfig')
-
--- Enable some language servers with the additional completion capabilities offered by nvim-cmp
-local servers = { 'clangd', 'rust_analyzer', 'pyright', 'tsserver' }
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
-    -- on_attach = my_custom_on_attach,
-    capabilities = capabilities,
-  }
-end
 
 -- luasnip setup
--- local luasnip = require 'luasnip'
+local luasnip = require 'luasnip'
 
 -- nvim-cmp setup
 local cmp = require 'cmp'
@@ -394,9 +358,9 @@ end
 
 keymap('i', 'jk', '<Esc>', opts)
 
-keymapno('<leader>w', ':w<CR>')
+keymapno('<leader>w', '<cmd>write<CR>')
 keymapno('<leader>W', ':wq<CR>')
-keymapno('<leader>q', ':q<CR>')
+keymapno('<leader>q', ':<cmd>quit<CR>')
 keymapno('<leader>Q', ':q!<CR>')
 
 
