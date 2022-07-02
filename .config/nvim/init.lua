@@ -54,9 +54,10 @@ opt.spellfile = '$HOME/neovim/spellfile/en.utf-8.add'
 
 -- setup packer if it is not installed
 local fn = vim.fn
-local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 if fn.empty(fn.glob(install_path)) > 0 then
-    PACKER_BOOTSTRAP = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+    PACKER_BOOTSTRAP = fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim',
+        install_path })
 end
 
 
@@ -66,7 +67,7 @@ require('packer').startup(function()
     -- Color theme
     use {
         'olimorris/onedarkpro.nvim',
-        config = function ()
+        config = function()
             -- vim.g.colors_name = ''
             require('onedarkpro').load()
         end,
@@ -114,6 +115,36 @@ require('packer').startup(function()
         'neovim/nvim-lspconfig'
     }
 
+    use {
+        "glepnir/lspsaga.nvim",
+        branch = "main",
+        config = function()
+            local saga = require("lspsaga")
+
+            saga.init_lsp_saga({
+                code_action_lightbulb = {
+                    virtual_text = true,
+                },
+                code_action_keys = {
+                    quit = "<Esc>",
+                    exec = "<CR>",
+                },
+                finder_action_keys = {
+                    open = "o",
+                    vsplit = "v",
+                    split = "s",
+                    quit = "<Esc>",
+                    scroll_down = "<C-f>",
+                    scroll_up = "<C-b>",
+                },
+                move_in_saga = { prev = 'k',next = 'j'},
+                rename_action_quit = "<C-c>",
+                code_action_icon = "",
+                max_preview_lines = 15,
+            })
+        end,
+    }
+
     -- autocomplete
     use 'hrsh7th/nvim-cmp'
     use 'hrsh7th/cmp-nvim-lsp'
@@ -140,6 +171,48 @@ require('packer').startup(function()
         config = function() require('nvim-ts-autotag').setup() end
     }
 
+    use {
+        'akinsho/bufferline.nvim',
+        tag = "v2.*",
+        requires = 'kyazdani42/nvim-web-devicons',
+        config = function()
+            require("bufferline").setup({
+                options = {
+                    diagnostics = "nvim_lsp",
+                    diagnostics_indicator = function(count, level, _, _)
+                        local icon = level:match("error") and " " or " "
+                        return " " .. icon .. count
+                    end,
+                    right_mouse_command = "vertical sbuffer %d"
+                }
+            })
+        end
+    }
+
+    use {
+        "akinsho/toggleterm.nvim",
+        tag = 'v1.*',
+        config = function()
+            require("toggleterm").setup({})
+            function _G.set_terminal_keymaps()
+                local opts = { noremap = true }
+                vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<C-\><C-n>]], opts)
+                vim.api.nvim_buf_set_keymap(0, 't', 'jk', [[<C-\><C-n>]], opts)
+                --vim.api.nvim_buf_set_keymap(0, 't', '<C-h>', [[<C-\><C-n><C-W>h]], opts)
+                --vim.api.nvim_buf_set_keymap(0, 't', '<C-j>', [[<C-\><C-n><C-W>j]], opts)
+                --vim.api.nvim_buf_set_keymap(0, 't', '<C-k>', [[<C-\><C-n><C-W>k]], opts)
+                --vim.api.nvim_buf_set_keymap(0, 't', '<C-l>', [[<C-\><C-n><C-W>l]], opts)
+            end
+
+            vim.api.nvim_set_keymap('n', '<C-n>', ':ToggleTerm direction=horizontal size=17<CR>', { noremap = true })
+            vim.api.nvim_set_keymap('t', '<C-n>', '<C-\\><C-n>:ToggleTerm<CR>', { noremap = true })
+            vim.api.nvim_set_keymap('i', '<C-n>', '<esc>:ToggleTerm direction=horizontal size=17<CR>', { noremap = true })
+
+            -- if you only want these mappings for toggle term use term://*toggleterm#* instead
+            vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
+        end
+    }
+
     -- Formatter
     --use 'sbdchd/neoformat'
 
@@ -150,7 +223,7 @@ require('packer').startup(function()
     use {
         'lewis6991/gitsigns.nvim',
         requires = { 'nvim-lua/plenary.nvim' },
-        config = function ()
+        config = function()
             require('gitsigns').setup()
         end
     }
@@ -191,6 +264,7 @@ require('nvim-treesitter.configs').setup({
         'svelte',
         'toml',
         'tsx',
+        'typescript',
         'vim',
         'vue',
         'yaml',
@@ -235,38 +309,48 @@ require('nvim-lsp-installer').setup({
 })
 
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
-local opts = { noremap=true, silent=true }
---vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
---vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
+local opts = { noremap = true, silent = true }
+vim.keymap.set('n', '<leader>of', vim.diagnostic.open_float, opts)
+vim.keymap.set("n", "<leader>dp", require("lspsaga.diagnostic").goto_prev, opts)
+vim.keymap.set("n", "<leader>dn", require("lspsaga.diagnostic").goto_next, opts)
+
+vim.keymap.set('n', '<space>ol', vim.diagnostic.setloclist, opts)
 
 local on_attach = function(client, bufnr)
-  -- Enable completion triggered by <c-x><c-o>
-  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+    -- Enable completion triggered by <c-x><c-o>
+    vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-  -- Mappings.
-  -- See `:help vim.lsp.*` for documentation on any of the below functions
-  local bufopts = { noremap=true, silent=true, buffer=bufnr }
-  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
-  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-  vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-  --vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-  --vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
-  --vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
-  --vim.keymap.set('n', '<space>wl', function()
-  --  print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  --end, bufopts)
-  vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
-  vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
-  vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
-  vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-  vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, bufopts)
+    -- Mappings.
+    -- See `:help vim.lsp.*` for documentation on any of the below functions
+    local bufopts = { noremap = true, silent = true, buffer = bufnr }
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+    --vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+    vim.keymap.set('n', 'K', require('lspsaga.hover').render_hover_doc, bufopts)
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+    --vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+    --vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
+    --vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
+    --vim.keymap.set('n', '<space>wl', function()
+    --  print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    --end, bufopts)
+    vim.keymap.set('n', '<leader>gt', vim.lsp.buf.type_definition, bufopts)
+
+    --vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
+    vim.keymap.set('n', '<leader>rn', require('lspsaga.rename').lsp_rename, bufopts)
+    vim.keymap.set('n', '<leader>p', require('lspsaga.definition').preview_definition, bufopts)
+
+    --vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufferoptions)
+    vim.keymap.set('n', '<leader>ca', require('lspsaga.codeaction').code_action, bufopts)
+
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+    vim.keymap.set('n', '<leader>gr', require('lspsaga.finder').lsp_finder, bufopts)
+
+    vim.keymap.set('n', '<leader>F', vim.lsp.buf.formatting, bufopts)
 end
 
 local lsp_flags = {
-  debounce_text_changes = 150,
+    debounce_text_changes = 150,
 }
 
 local lspconfig = require('lspconfig')
@@ -277,16 +361,17 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
 
-local servers = { 'pyright', 'clangd', 'volar', 'sumneko_lua', 'rust_analyzer', 'jdtls', 'tsserver', 'tailwindcss', 'eslint', 'cssmodules_ls' }
+local servers = { 'pyright', 'clangd', 'volar', 'sumneko_lua', 'rust_analyzer', 'jdtls', 'tsserver', 'tailwindcss',
+    'eslint', 'cssmodules_ls' }
 
 -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
 for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup({
-    on_attach = on_attach,
-    capabilities = capabilities,
-    flags = lsp_flags,
-})
-  end
+    lspconfig[lsp].setup({
+        on_attach = on_attach,
+        capabilities = capabilities,
+        flags = lsp_flags,
+    })
+end
 
 lspconfig.sumneko_lua.setup({
     on_attach = on_attach,
@@ -307,42 +392,42 @@ local luasnip = require 'luasnip'
 -- nvim-cmp setup
 local cmp = require 'cmp'
 cmp.setup {
-  snippet = {
-    expand = function(args)
-      luasnip.lsp_expand(args.body)
-    end,
-  },
-  mapping = cmp.mapping.preset.insert({
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<CR>'] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
+    snippet = {
+        expand = function(args)
+            luasnip.lsp_expand(args.body)
+        end,
     },
-    ['<Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      elseif luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
-      else
-        fallback()
-      end
-    end, { 'i', 's' }),
-    ['<S-Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      elseif luasnip.jumpable(-1) then
-        luasnip.jump(-1)
-      else
-        fallback()
-      end
-    end, { 'i', 's' }),
-  }),
-  sources = {
-    { name = 'nvim_lsp' },
-    { name = 'luasnip' },
-  },
+    mapping = cmp.mapping.preset.insert({
+        ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-f>'] = cmp.mapping.scroll_docs(4),
+        ['<C-Space>'] = cmp.mapping.complete(),
+        ['<CR>'] = cmp.mapping.confirm {
+            behavior = cmp.ConfirmBehavior.Replace,
+            select = true,
+        },
+        ['<Tab>'] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_next_item()
+            elseif luasnip.expand_or_jumpable() then
+                luasnip.expand_or_jump()
+            else
+                fallback()
+            end
+        end, { 'i', 's' }),
+        ['<S-Tab>'] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_prev_item()
+            elseif luasnip.jumpable(-1) then
+                luasnip.jump(-1)
+            else
+                fallback()
+            end
+        end, { 'i', 's' }),
+    }),
+    sources = {
+        { name = 'nvim_lsp' },
+        { name = 'luasnip' },
+    },
 }
 
 -- }}}
@@ -359,24 +444,29 @@ end
 keymap('i', 'jk', '<Esc>', opts)
 
 keymapno('<leader>w', '<cmd>write<CR>')
-keymapno('<leader>W', ':wq<CR>')
-keymapno('<leader>q', ':<cmd>quit<CR>')
-keymapno('<leader>Q', ':q!<CR>')
+keymapno('<leader>W', '<cmd>wq<CR>')
+keymapno('<leader>q', '<cmd>quit<CR>')
+keymapno('<leader>Q', '<cmd>q!<CR>')
 
 
 -- editing and realoading configs
-keymapno('<leader>ev', ':e $MYVIMRC<CR>')
-keymapno('<leader>ez', ':e $HOME/.zshrc<CR>')
-keymapno('<leader>et', ':e $HOME/.tmux.conf<CR>')
-keymapno('<leader>rv', ':source $MYVIMRC<CR>')
-keymapno('<leader>rp', ':PackerSync<CR>')
+keymapno('<leader>ev', '<cmd>e $MYVIMRC<CR>')
+keymapno('<leader>ez', '<cmd>e $HOME/.zshrc<CR>')
+keymapno('<leader>et', '<cmd>e $HOME/.tmux.conf<CR>')
+keymapno('<leader>rv', '<cmd>source $MYVIMRC<CR>')
+keymapno('<leader>rp', '<cmd>PackerSync<CR>')
+
+keymapno('<leader>ce', '<cmd>Copilot enable<CR>')
+keymapno('<leader>cd', '<cmd>Copilot disable<CR>')
+keymapno('<leader>cp', '<cmd>Copilot panel<CR>')
+keymapno('<leader>cr', '<cmd>Copilot restart<CR>')
 
 -- Telescope
-keymapno('<leader>ff', '<cmd> Telescope find_files<cr>')
-keymapno('<C-p>', '<cmd> Telescope git_files<cr>')
-keymapno('<leader>fg', '<cmd> Telescope live_grep<cr>')
-keymapno('<leader>fb', '<cmd> Telescope buffers<cr>')
-keymapno('<leader>fh', '<cmd> Telescope help_tags<cr>')
-keymapno('<leader>fm', '<cmd> Telescope man_pages<cr>')
+keymapno('<leader>ff', '<cmd> Telescope find_files<CR>')
+keymapno('<C-p>', '<cmd> Telescope git_files<CR>')
+keymapno('<leader>fg', '<cmd> Telescope live_grep<CR>')
+keymapno('<leader>fb', '<cmd> Telescope buffers<CR>')
+keymapno('<leader>fh', '<cmd> Telescope help_tags<CR>')
+keymapno('<leader>fm', '<cmd> Telescope man_pages<CR>')
 
 -- }}}
