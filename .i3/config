@@ -127,6 +127,12 @@ mode "$mode_system" {
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 1 +10% 
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 1 -10% 
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 1 toggle 
+bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
+bindsym XF86AudioNext exec --no-startup-id playerctl next
+bindsym XF86AudioPrev exec --no-startup-id playerctl previous
 # }}}
 
 # Workspaces and Displays {{{
@@ -272,8 +278,8 @@ set_from_resource $term_color15    color15
 # Theme colors
 # class                 border  backgr. text    indic.   child_border
 client.focused          #98C379 #98C379 #22252C #61AFEF
-client.focused_inactive #22252C #22252C #61AFEF #22252C
-client.unfocused        #22252C #22252C #98C379 #22252C
+    client.focused_inactive #22252C #22252C #61AFEF #22252C
+    client.unfocused        #22252C #22252C #98C379 #22252C
 client.urgent           #22252C #22252C #98C379 #22252C
 client.placeholder      #22252C #22252C #98C379 #22252C
 
@@ -282,35 +288,37 @@ client.background       #22252C
 
 # i3bar {{{
 
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+
 # Start i3bar to display a workspace bar (plus the system information i3status if available)
-bar {
-    status_command ~/.config/bumblebee-status/bumblebee-status \
-        -m cpu sensors memory pasink time date \
-        -p time.format="%H:%M" \
-        -t iceberg-rainbow
-
-#	i3bar_command i3bar
-#	status_command i3status
-	position bottom
-
-	tray_output primary
-
-	bindsym button4 nop
-	bindsym button5 nop
-    font xft:FiraCode Nerd Font Mono 11
-	strip_workspace_numbers yes
-
-    colors {
-        background #22252C
-        statusline #F9FAF9
-        separator  #454947
-
-#                          border  backgr. text
-        focused_workspace  #98C379 #98C379 #22252C
-        active_workspace   #98C379 #22252C #98C379
-        inactive_workspace #98C379 #22252C #98C379
-        binding_mode       #98C379 #22252C #98C379
-        urgent_workspace   #98C379 #22252C #98C379
-    }
-}
+# bar {
+#     status_command ~/.config/bumblebee-status/bumblebee-status \
+#         -m cpu sensors memory pasink time date \
+#         -p time.format="%H:%M" \
+#         -t iceberg-rainbow
+#
+# 	# i3bar_command i3bar
+# 	# status_command i3status
+# 	position bottom
+#
+# 	tray_output primary
+#
+# 	bindsym button4 nop
+# 	bindsym button5 nop
+#     font xft:FiraCode Nerd Font Mono 11
+# 	strip_workspace_numbers yes
+#
+#     colors {
+#         background #22252C
+#         statusline #F9FAF9
+#         separator  #454947
+#
+# #                          border  backgr. text
+#         focused_workspace  #98C379 #98C379 #22252C
+#         active_workspace   #98C379 #22252C #98C379
+#         inactive_workspace #98C379 #22252C #98C379
+#         binding_mode       #98C379 #22252C #98C379
+#         urgent_workspace   #98C379 #22252C #98C379
+#     }
+# }
 # }}}
