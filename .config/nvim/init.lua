@@ -224,6 +224,28 @@ require('packer').startup(function()
     use 'tpope/vim-commentary' -- comment out code
     use 'github/copilot.vim'
 
+    use {
+        'norcalli/nvim-colorizer.lua',
+        config = function() 
+            require('colorizer').setup()
+        end
+    }
+
+    use {
+        'TimUntersberger/neogit',
+        requires = {'nvim-lua/plenary.nvim', 'sindrets/diffview.nvim'},
+        config = function ()
+            local neogit = require('neogit')
+            neogit.setup({
+                integrations = {
+                    diffview = true
+                }
+            })
+            vim.api.nvim_set_keymap('n', '<C-g>', ':Neogit<CR>', { noremap = true })
+        end
+    }
+
+
     -- tmux vim navitation
     use 'christoomey/vim-tmux-navigator'
 
@@ -544,6 +566,40 @@ dap.configurations.javascript = {
     request = 'attach',
     processId = require'dap.utils'.pick_process,
   },
+}
+
+dap.adapters.cppdbg = {
+    id = 'cppdbg',
+    type = 'executable',
+    command = os.getenv('HOME') .. '/dev/microsoft/cpptools-linux/extension/debugAdapters/bin/OpenDebugAD7',
+    options = {
+        detached = false
+    }
+}
+
+dap.configurations.c = {
+    {
+        name = "Launch file",
+        type = "cppdbg",
+        request = "launch",
+        program = function()
+            return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+        end,
+        cwd = '${workspaceFolder}',
+        stopOnEntry = true,
+    },
+    {
+        name = 'Attach to gdbserver :1234',
+        type = 'cppdbg',
+        request = 'launch',
+        MIMode = 'gdb',
+        miDebuggerServerAddress = 'localhost:1234',
+        miDebuggerPath = '/usr/bin/gdb',
+        cwd = '${workspaceFolder}',
+        program = function()
+            return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+        end,
+    },
 }
 
 vim.keymap.set('n', '<F5>', ':lua require"dap".continue()<CR>')
