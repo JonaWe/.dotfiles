@@ -6,11 +6,10 @@ polybar-msg cmd quit
 # Otherwise you can use the nuclear option:
 # killall -q polybar
 
-# Launch bar1 and bar2
-echo "---" | tee -a /tmp/polybar1.log /tmp/polybar2.log
+# Launch all three bars
+echo "---" | tee -a /tmp/polybar1.log /tmp/polybar2.log /tmp/polybar3.log
 MONITOR=DP-0 polybar main 2>&1 | tee -a /tmp/polybar1.log & disown
-# polybar vertical 2>&1 | tee -a /tmp/polybar2.log & disown
-MONITOR=HDMI-0 polybar second 2>&1 | tee -a /tmp/polybar2.log & disown
-MONITOR=DVI-D-0 polybar second 2>&1 | tee -a /tmp/polybar2.log & disown
+MONITOR=HDMI-0 polybar vertical 2>&1 | tee -a /tmp/polybar2.log & disown
+MONITOR=DVI-D-0 polybar second 2>&1 | tee -a /tmp/polybar3.log & disown
 
 echo "Bars launched..."
