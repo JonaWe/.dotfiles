@@ -89,6 +89,7 @@ alias zshconf="$EDITOR ~/.zshrc"
 alias omzconf="$EDITOR ~/.oh-my-zsh"
 alias i3conf="$EDITOR ~/.i3/config"
 alias kittyconf="$EDITOR ~/.config/kitty/kitty.conf"
+alias polyconf="$EDITOR ~/.config/polybar/config.ini"
 
 alias ls='lsd'
 alias l='ls -l'
