@@ -450,7 +450,7 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
 
-local servers = { 'pyright', 'clangd', 'volar', 'sumneko_lua', 'rust_analyzer', 'jdtls', 'tsserver', 'tailwindcss',
+local servers = { 'pyright', 'clangd', 'volar', 'sumneko_lua', 'rust_analyzer', 'jdtls', 'tsserver', 'tailwindcss', 'svelte',
     'eslint', 'cssmodules_ls' }
 
 -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
