@@ -73,6 +73,7 @@ bindsym $mod+Shift+l move right
 # Workspace back and forth (with/without active container)
 workspace_auto_back_and_forth yes
 bindsym $mod+b workspace back_and_forth
+bindsym Mod1+Tab workspace back_and_forth
 bindsym $mod+Shift+b move container to workspace back_and_forth; workspace back_and_forth
 
 # Split orientation
@@ -112,23 +113,21 @@ bindsym $mod+Shift+r restart
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # Set shut down, restart and locking features
-bindsym $mod+F4 mode "$mode_system"
-set $mode_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
+bindsym $mod+minus mode "$mode_system"
+set $mode_system (s)hutdown, (r)eboot, (S)uspend, (h)ibernate
 mode "$mode_system" {
-    bindsym l exec --no-startup-id i3exit lock, mode "default"
-    bindsym s exec --no-startup-id i3exit suspend, mode "default"
-    bindsym u exec --no-startup-id i3exit switch_user, mode "default"
-    bindsym e exec --no-startup-id i3exit logout, mode "default"
-    bindsym h exec --no-startup-id i3exit hibernate, mode "default"
+    bindsym s exec --no-startup-id i3exit shutdown, mode "default"
     bindsym r exec --no-startup-id i3exit reboot, mode "default"
-    bindsym Shift+s exec --no-startup-id i3exit shutdown, mode "default"
+    bindsym Shift+s exec --no-startup-id i3exit suspend, mode "default"
+    bindsym h exec --no-startup-id i3exit hibernate, mode "default"
 
     # exit system mode: "Enter" or "Escape"
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 1 +10% 
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 1 -10% 
+
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 1 +1% 
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 1 -1% 
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 1 toggle 
 bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
 bindsym XF86AudioNext exec --no-startup-id playerctl next
@@ -219,7 +218,7 @@ exec_always --no-startup-id fix_xcursor
 
 # Audio
 exec --no-startup-id start-pulseaudio-x11
-exec --no-startup-id pa-applet
+# exec --no-startup-id pa-applet
 
 # User applications
 exec --no-startup-id i3-msg 'workspace $ws8; exec brave'
@@ -230,7 +229,7 @@ exec --no-startup-id spotify
 exec --no-startup-id discord
 
 # start obs for replay buffer
-exec --no-startup-id obs --startreplaybuffer
+# exec --no-startup-id obs --startreplaybuffer
 
 # load my keyboard layout
 exec --no-startup-id $HOME/.kbl/update.sh
@@ -244,7 +243,7 @@ assign [class="Signal"] $ws5
 assign [class="Telegram"] $ws5
 assign [class="discord"] $ws4
 assign [class="obs"] $ws6
-for_window [class="Spotify"] move to workspace $ws4
+for_window [class="Spotify"] move to workspace $ws1
 
 # Open specific applications in floating mode
 for_window [title="alsamixer"] floating enable border pixel 1
