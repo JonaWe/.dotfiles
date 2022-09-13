@@ -109,6 +109,89 @@ require('packer').startup(function()
         run = ':TSUpdate'
     }
 
+    use {
+        'nvim-treesitter/nvim-treesitter-context',
+        config = function ()
+            require('treesitter-context').setup({
+                enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+                max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
+                trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+                patterns = { -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
+                -- For all filetypes
+                -- Note that setting an entry here replaces all other patterns for this entry.
+                -- By setting the 'default' entry below, you can control which nodes you want to
+                -- appear in the context window.
+                default = {
+                    'class',
+                    'function',
+                    'method',
+                    'for',
+                    'while',
+                    'if',
+                    'switch',
+                    'case',
+                },
+                -- Patterns for specific filetypes
+                -- If a pattern is missing, *open a PR* so everyone can benefit.
+                tex = {
+                    'chapter',
+                    'section',
+                    'subsection',
+                    'subsubsection',
+                },
+                rust = {
+                    'impl_item',
+                    'struct',
+                    'enum',
+                },
+                scala = {
+                    'object_definition',
+                },
+                vhdl = {
+                    'process_statement',
+                    'architecture_body',
+                    'entity_declaration',
+                },
+                markdown = {
+                    'section',
+                },
+                elixir = {
+                    'anonymous_function',
+                    'arguments',
+                    'block',
+                    'do_block',
+                    'list',
+                    'map',
+                    'tuple',
+                    'quoted_content',
+                },
+                json = {
+                    'pair',
+                },
+                yaml = {
+                    'block_mapping_pair',
+                },
+            },
+            exact_patterns = {
+                -- Example for a specific filetype with Lua patterns
+                -- Treat patterns.rust as a Lua pattern (i.e "^impl_item$" will
+                -- exactly match "impl_item" only)
+                -- rust = true,
+            },
+
+            -- [!] The options below are exposed but shouldn't require your attention,
+            --     you can safely ignore them.
+
+            zindex = 20, -- The Z-index of the context window
+            mode = 'cursor',  -- Line used to calculate context. Choices: 'cursor', 'topline'
+            -- Separator between context and content. Should be a single character string, like '-'.
+            -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
+            separator = nil,
+        })
+
+    end
+    }
+
     -- lsp default config
     use {
         'williamboman/nvim-lsp-installer',
@@ -211,6 +294,23 @@ require('packer').startup(function()
         end
     }
 
+    -- use {
+    --     "folke/trouble.nvim",
+    --     requires = "kyazdani42/nvim-web-devicons",
+    --     config = function()
+    --         require("trouble").setup {
+    --             signs = {
+    --                 -- icons / text used for a diagnostic
+    --                 error = "",
+    --                 warning = "",
+    --                 hint = "",
+    --                 information = "",
+    --                 other = "﫠"
+    --             },
+    --         }
+    --     end
+    -- }
+
     -- autocomplete
     use 'hrsh7th/nvim-cmp'
     use 'hrsh7th/cmp-nvim-lsp'
@@ -226,7 +326,7 @@ require('packer').startup(function()
 
     use {
         'norcalli/nvim-colorizer.lua',
-        config = function() 
+        config = function()
             require('colorizer').setup()
         end
     }
@@ -269,7 +369,7 @@ require('packer').startup(function()
                     diagnostics = "nvim_lsp",
                     diagnostics_indicator = function(count, level, _, _)
                         local icon = level:match("error") and " " or " "
-                        return " " .. icon .. count
+                        return " " .. icon  .. count
                     end,
                     right_mouse_command = "vertical sbuffer %d"
                 }
@@ -315,6 +415,9 @@ require('packer').startup(function()
             require('gitsigns').setup()
         end
     }
+
+   use 'lervag/vimtex'
+
 
     --use 'RRethy/vim-illuminate' -- highlight the current word
 
@@ -386,6 +489,12 @@ require('nvim-treesitter.configs').setup({
 
 -- LSP and Autocomplete Setup {{{
 
+local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
+
 require('nvim-lsp-installer').setup({
     automatic_installation = true,
     ui = {
@@ -406,6 +515,25 @@ vim.keymap.set("n", "<leader>dn", require("lspsaga.diagnostic").goto_next, opts)
 vim.keymap.set('n', '<space>ol', vim.diagnostic.setloclist, opts)
 
 local on_attach = function(client, bufnr)
+    -- getbufline(buf, 0, 1)
+    -- -- getbufline(buf, 0, 1)
+    -- vim.lsp.for_each_buffer_client(bufnr)
+    -- this stopps the tsserver when the flow server is started or allready attached
+    if client.name == 'flow' then
+        for i, server in ipairs(vim.lsp.get_active_clients()) do
+            if server.name == 'tsserver' then
+                vim.lsp.get_client_by_id(server.id).stop()
+            end
+        end
+    end
+    if client.name == 'tsserver' then
+        for i, server in ipairs(vim.lsp.get_active_clients()) do
+            if server.name == 'flow' then
+                vim.lsp.get_client_by_id(client.id).stop()
+            end
+        end
+    end
+
     -- Enable completion triggered by <c-x><c-o>
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
@@ -451,7 +579,7 @@ capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
 
 local servers = { 'pyright', 'clangd', 'volar', 'sumneko_lua', 'rust_analyzer', 'jdtls', 'tsserver', 'tailwindcss', 'svelte',
-    'eslint', 'cssmodules_ls' }
+    'eslint', 'cssmodules_ls', 'flow' }
 
 -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
 for _, lsp in ipairs(servers) do
