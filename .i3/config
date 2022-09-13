@@ -215,6 +215,7 @@ exec --no-startup-id clipit
 exec --no-startup-id start_conky_maia
 exec_always --no-startup-id ff-theme-util
 exec_always --no-startup-id fix_xcursor
+exec --no-startup-id numlockx on
 
 # Audio
 exec --no-startup-id start-pulseaudio-x11
