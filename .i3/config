@@ -222,12 +222,13 @@ exec --no-startup-id start-pulseaudio-x11
 # exec --no-startup-id pa-applet
 
 # User applications
-exec --no-startup-id i3-msg 'workspace $ws8; exec brave'
 exec --no-startup-id thunderbird
 exec --no-startup-id signal-desktop
 exec --no-startup-id telegram-desktop
 exec --no-startup-id spotify
 exec --no-startup-id discord
+# exec --no-startup-id brave
+exec --no-startup-id i3-msg 'workspace $ws8; exec brave && sleep 3'
 
 # start obs for replay buffer
 # exec --no-startup-id obs --startreplaybuffer
@@ -239,12 +240,13 @@ exec --no-startup-id $HOME/.kbl/update.sh
 exec --no-startup-id feh --no-fehbg --bg-fill "$HOME/Pictures/Wallpapers/wallpaper.jpg"
 
 # Open applications on specific workspaces
-assign [class="Thunderbird"] $ws7
 assign [class="Signal"] $ws5
 assign [class="Telegram"] $ws5
 assign [class="discord"] $ws4
 assign [class="obs"] $ws6
 for_window [class="Spotify"] move to workspace $ws1
+for_window [class="thunderbird"] move to workspace $ws7
+for_window [class="Mail"] move to workspace $ws7
 
 # Open specific applications in floating mode
 for_window [title="alsamixer"] floating enable border pixel 1
@@ -278,8 +280,8 @@ set_from_resource $term_color15    color15
 # Theme colors
 # class                 border  backgr. text    indic.   child_border
 client.focused          #98C379 #98C379 #22252C #61AFEF
-    client.focused_inactive #22252C #22252C #61AFEF #22252C
-    client.unfocused        #22252C #22252C #98C379 #22252C
+client.focused_inactive #22252C #22252C #61AFEF #22252C
+client.unfocused        #22252C #22252C #98C379 #22252C
 client.urgent           #22252C #22252C #98C379 #22252C
 client.placeholder      #22252C #22252C #98C379 #22252C
 
@@ -290,35 +292,4 @@ client.background       #22252C
 
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
-# Start i3bar to display a workspace bar (plus the system information i3status if available)
-# bar {
-#     status_command ~/.config/bumblebee-status/bumblebee-status \
-#         -m cpu sensors memory pasink time date \
-#         -p time.format="%H:%M" \
-#         -t iceberg-rainbow
-#
-# 	# i3bar_command i3bar
-# 	# status_command i3status
-# 	position bottom
-#
-# 	tray_output primary
-#
-# 	bindsym button4 nop
-# 	bindsym button5 nop
-#     font xft:FiraCode Nerd Font Mono 11
-# 	strip_workspace_numbers yes
-#
-#     colors {
-#         background #22252C
-#         statusline #F9FAF9
-#         separator  #454947
-#
-# #                          border  backgr. text
-#         focused_workspace  #98C379 #98C379 #22252C
-#         active_workspace   #98C379 #22252C #98C379
-#         inactive_workspace #98C379 #22252C #98C379
-#         binding_mode       #98C379 #22252C #98C379
-#         urgent_workspace   #98C379 #22252C #98C379
-#     }
-# }
 # }}}
