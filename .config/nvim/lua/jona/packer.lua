@@ -76,7 +76,11 @@ return require('packer').startup(function(use)
         config = function()
             local saga = require('lspsaga')
 
-            saga.init_lsp_saga()
+            saga.init_lsp_saga({
+                code_action_lightbulb = {
+                    enable = false
+                }
+            })
         end,
     }
 
@@ -93,6 +97,14 @@ return require('packer').startup(function(use)
                     other = '﫠'
                 },
             }
+        end
+    }
+
+    use {
+        "folke/todo-comments.nvim",
+        requires = "nvim-lua/plenary.nvim",
+        config = function()
+            require("todo-comments").setup()
         end
     }
 
@@ -156,6 +168,30 @@ return require('packer').startup(function(use)
             require('gitsigns').setup()
         end
     }
+
+    use {
+        'RRethy/vim-illuminate'
+    }
+
+    use { 'folke/lua-dev.nvim' }
+
+    use {
+        'simrat39/rust-tools.nvim',
+        config = function ()
+            local rt = require("rust-tools")
+            rt.setup({
+                server = {
+                    on_attach = function(_, bufnr)
+                        -- Hover actions
+                        vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
+                        -- Code action groups
+                        vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
+                    end,
+                },
+            })
+        end
+    }
+
 
 
     -- Automatically set up your configuration after cloning packer.nvim

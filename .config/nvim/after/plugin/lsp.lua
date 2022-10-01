@@ -27,7 +27,7 @@ end
 
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = { noremap = true, silent = true }
-vim.keymap.set('n', '<leader>of', vim.diagnostic.open_float, opts)
+vim.keymap.set('n', '<leader>od', vim.diagnostic.open_float, opts)
 --vim.keymap.set("n", "<leader>dp", require("lspsaga.diagnostic").goto_prev, opts)
 --vim.keymap.set("n", "<leader>dn", require("lspsaga.diagnostic").goto_next, opts)
 
