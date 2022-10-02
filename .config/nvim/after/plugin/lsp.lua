@@ -78,7 +78,7 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
     -- vim.keymap.set('n', '<leader>gr', require('lspsaga.finder').lsp_finder, bufopts)
 
-    vim.keymap.set('n', '<leader>F', vim.lsp.buf.formatting, bufopts)
+    vim.keymap.set('n', '<leader>p', vim.lsp.buf.format, bufopts)
 end
 
 local lsp_flags = {

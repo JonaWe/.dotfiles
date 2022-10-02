@@ -30,7 +30,7 @@ return require('packer').startup(function(use)
 
     use {
         'nvim-lualine/lualine.nvim',
-        requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+        requires = { 'kyazdani42/nvim-web-devicons' },
     }
 
     use {
@@ -125,23 +125,23 @@ return require('packer').startup(function(use)
         config = function() require('nvim-ts-autotag').setup() end
     }
 
-    use {
-        'akinsho/bufferline.nvim',
-        tag = 'v2.*',
-        requires = 'kyazdani42/nvim-web-devicons',
-        config = function()
-            require('bufferline').setup({
-                options = {
-                    diagnostics = 'nvim_lsp',
-                    diagnostics_indicator = function(count, level, _, _)
-                        local icon = level:match('error') and ' ' or ' '
-                        return ' ' .. icon  .. count
-                    end,
-                    right_mouse_command = 'vertical sbuffer %d'
-                }
-            })
-        end
-    }
+    -- use {
+    --     'akinsho/bufferline.nvim',
+    --     tag = 'v2.*',
+    --     requires = 'kyazdani42/nvim-web-devicons',
+    --     config = function()
+    --         require('bufferline').setup({
+    --             options = {
+    --                 diagnostics = 'nvim_lsp',
+    --                 diagnostics_indicator = function(count, level, _, _)
+    --                     local icon = level:match('error') and ' ' or ' '
+    --                     return ' ' .. icon  .. count
+    --                 end,
+    --                 right_mouse_command = 'vertical sbuffer %d'
+    --             }
+    --         })
+    --     end
+    -- }
 
     use {
         'petertriho/nvim-scrollbar',

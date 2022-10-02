@@ -5,6 +5,12 @@ vim.opt.mouse = 'a'
 vim.opt.termguicolors = true
 vim.o.background = 'dark'
 
+-- vim.o.ls = 0
+-- vim.o.ch = 0
+
+-- currently doing this with lualine
+-- vim.o.winbar = '%f %m'
+
 vim.opt.relativenumber = true
 
 vim.opt.ignorecase = true
@@ -35,7 +41,7 @@ vim.opt.colorcolumn = '100'
 vim.opt.signcolumn = "yes:2"
 --vim.opt.signcolumn = 'auto:2-5'
 
-vim.opt.spell = false
+vim.opt.spell = true
 vim.opt.spelllang = 'en,de'
 vim.opt.spellfile = '$HOME/neovim/spellfile/en.utf-8.add'
 
