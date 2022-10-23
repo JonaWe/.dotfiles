@@ -170,8 +170,15 @@ return require('packer').startup(function(use)
     }
 
     use {
-        'RRethy/vim-illuminate'
-    }
+        'RRethy/vim-illuminate',
+        config = function ()
+            require('illuminate').configure({
+                providers = {
+                    'lsp',
+                },
+                delay = 10,})
+            end
+        }
 
     use { 'folke/lua-dev.nvim' }
 
@@ -191,6 +198,16 @@ return require('packer').startup(function(use)
             })
         end
     }
+
+    use {
+        'rcarriga/nvim-notify',
+        config = function ()
+            vim.notify = require("notify")
+        end
+    }
+
+    use { 'lewis6991/impatient.nvim' }
+
 
 
 

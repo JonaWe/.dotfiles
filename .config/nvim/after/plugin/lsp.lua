@@ -24,6 +24,28 @@ for type, icon in pairs(signs) do
   local hl = "DiagnosticSign" .. type
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
+vim.diagnostic.config({
+    virtual_text = {
+        source = 'if_many',
+        prefix = '',
+        format = function(diagnostic)
+            if diagnostic.severity == vim.diagnostic.severity.ERROR then
+                return string.format("%s %s", signs.Error, diagnostic.message)
+            end
+            if diagnostic.severity == vim.diagnostic.severity.WARN then
+                return string.format("%s %s", signs.Warn, diagnostic.message)
+            end
+            if diagnostic.severity == vim.diagnostic.severity.HINT then
+                return string.format("%s %s", signs.Hint, diagnostic.message)
+            end
+            if diagnostic.severity == vim.diagnostic.severity.INFO then
+                return string.format("%s %s", signs.Info, diagnostic.message)
+            end
+            return diagnostic.message
+        end
+
+    }
+})
 
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = { noremap = true, silent = true }

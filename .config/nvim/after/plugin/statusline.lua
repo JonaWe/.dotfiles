@@ -8,9 +8,9 @@ require('lualine').setup({
         lualine_z = { '%l/%L:%c' }
     },
     winbar = {
-        lualine_c = { 'filename' }
+        lualine_c = { 'filename', 'diagnostics' }
     },
     inactive_winbar = {
-        lualine_c = { 'filename' }
+        lualine_c = { 'filename', 'diagnostics' }
     }
 })
