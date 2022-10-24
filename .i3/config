@@ -18,11 +18,15 @@ smart_gaps on
 smart_borders on
 
 # Configure border style <normal|1pixel|pixel xx|none|pixel>
-default_border pixel 2
-default_floating_border normal
+default_border pixel 1
+default_floating_border pixel 1
 
 # Hide borders
 hide_edge_borders none
+
+# Hide window title bar
+for_window [class=^.*] border pixel 1
+
 # }}}
 
 # Keybindings {{{
