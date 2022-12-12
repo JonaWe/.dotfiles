@@ -147,10 +147,9 @@ return require('packer').startup(function(use)
         'petertriho/nvim-scrollbar',
         config = function()
             require('scrollbar').setup()
-            require('scrollbar.handlers.search').setup()
+            -- require('scrollbar.handlers.search').setup()
         end
     }
-    use { 'kevinhwang91/nvim-hlslens' }
 
     use {
         'lukas-reineke/indent-blankline.nvim',

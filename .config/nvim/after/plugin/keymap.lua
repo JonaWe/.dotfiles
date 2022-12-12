@@ -10,6 +10,11 @@ nnoremap('<leader>W', '<cmd>wq<CR>')
 nnoremap('<leader>q', '<cmd>quit<CR>')
 nnoremap('<leader>Q', '<cmd>q!<CR>')
 
+nnoremap('<C-d>', '<C-d>zz')
+nnoremap('<C-u>', '<C-u>zz')
+nnoremap('n', 'nzzzv')
+nnoremap('N', 'Nzzzv')
+
 nnoremap('<leader>ev', '<cmd>e $MYVIMRC<CR>')
 nnoremap('<leader>ez', '<cmd>e $HOME/.zshrc<CR>')
 nnoremap('<leader>et', '<cmd>e $HOME/.tmux.conf<CR>')
@@ -39,17 +44,4 @@ nnoremap("<leader>xl", "<cmd>TroubleToggle loclist<cr>")
 nnoremap("<leader>xq", "<cmd>TroubleToggle quickfix<cr>")
 nnoremap("gR", "<cmd>TroubleToggle lsp_references<cr>")
 
-local kopts = {noremap = true, silent = true}
-
-vim.api.nvim_set_keymap('n', 'n',
-    [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
-    kopts)
-vim.api.nvim_set_keymap('n', 'N',
-    [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
-    kopts)
-vim.api.nvim_set_keymap('n', '*', [[*<Cmd>lua require('hlslens').start()<CR>]], kopts)
-vim.api.nvim_set_keymap('n', '#', [[#<Cmd>lua require('hlslens').start()<CR>]], kopts)
-vim.api.nvim_set_keymap('n', 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], kopts)
-vim.api.nvim_set_keymap('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], kopts)
-
-vim.api.nvim_set_keymap('n', '<Leader>l', ':noh<CR>', kopts)
+nnoremap('<Leader>l', ':noh<CR>')
