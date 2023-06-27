@@ -71,17 +71,22 @@ return require('packer').startup(function(use)
     use { 'christoomey/vim-tmux-navigator' }
 
     use {
-        'glepnir/lspsaga.nvim',
-        branch = 'main',
+        "glepnir/lspsaga.nvim",
+        opt = true,
+        branch = "main",
+        event = "LspAttach",
         config = function()
-            local saga = require('lspsaga')
-
-            saga.init_lsp_saga({
+            require("lspsaga").setup({
                 code_action_lightbulb = {
                     enable = false
                 }
             })
         end,
+        requires = {
+            {"nvim-tree/nvim-web-devicons"},
+            --Please make sure you install markdown and markdown_inline parser
+            {"nvim-treesitter/nvim-treesitter"}
+        }
     }
 
     use {
@@ -198,6 +203,19 @@ return require('packer').startup(function(use)
         end
     }
 
+    -- use {
+    --     "kiyoon/jupynium.nvim",
+    --     run = "pip3 install --user .",
+    --     config = function ()
+    --         require('jupynium').setup({})
+    --     end
+    -- }
+    
+    use { 'WhiteBlackGoose/magma-nvim-goose', run = ':UpdateRemotePlugins' }
+
+    use { 'goerz/jupytext.vim' }
+
+
     use {
         'rcarriga/nvim-notify',
         config = function ()
@@ -206,8 +224,6 @@ return require('packer').startup(function(use)
     }
 
     use { 'lewis6991/impatient.nvim' }
-
-
 
 
     -- Automatically set up your configuration after cloning packer.nvim

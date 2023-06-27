@@ -2,7 +2,7 @@ local servers = {
     'pyright',
     'clangd',
     'volar',
-    'sumneko_lua',
+    'lua_ls',
     'rust_analyzer',
     'jdtls',
     'tsserver',
@@ -10,14 +10,13 @@ local servers = {
     'svelte',
     'eslint',
     'cssmodules_ls',
-    'flow',
+    'kotlin_language_server',
 }
 
 require('mason').setup()
 require('mason-lspconfig').setup({
     automatic_installation = true,
 })
-
 
 local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
 for type, icon in pairs(signs) do
@@ -124,7 +123,7 @@ for _, lsp in ipairs(servers) do
     })
 end
 
-lspconfig.sumneko_lua.setup({
+lspconfig.lua_ls.setup({
     on_attach = on_attach,
     flags = lsp_flags,
     settings = {
