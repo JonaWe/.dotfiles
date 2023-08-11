@@ -1,3 +1,3 @@
 require('jona.set')
-require('jona.packer')
+require('jona.lazy')
 require('jona.telescope')

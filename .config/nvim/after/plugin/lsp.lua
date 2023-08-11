@@ -1,3 +1,5 @@
+require("neodev").setup({})
+
 local servers = {
     'pyright',
     'clangd',
@@ -12,6 +14,7 @@ local servers = {
     'cssmodules_ls',
     'kotlin_language_server',
 }
+
 
 require('mason').setup()
 require('mason-lspconfig').setup({
@@ -126,13 +129,13 @@ end
 lspconfig.lua_ls.setup({
     on_attach = on_attach,
     flags = lsp_flags,
+    capabilities = capabilities,
     settings = {
         Lua = {
-            diagnostics = {
-                globals = { 'vim', 'use' }
-            },
+            completion = {
+                callSnippet = "Replace"
+            }
         }
     }
 })
-
 
