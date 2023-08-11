@@ -254,7 +254,8 @@ assign [class="discord"] $ws4
 assign [class="obs"] $ws6
 assign [class="thunderbird"] $ws7
 for_window [class="Spotify"] move to workspace $ws1
-for_window [class="thunderbird"] move to workspace $ws7
+for_window [class="thunderbird"] move container to workspace $ws7
+for_window [window_role="Msgcompose" class="*"] move container to workspace $ws7
 for_window [class="Mail"] move to workspace $ws7
 
 # Open specific applications in floating mode
