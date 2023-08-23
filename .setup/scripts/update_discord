@@ -1,0 +1,2 @@
+#!/bin/sh
+sudo pacman -U https://archlinux.org/packages/extra/x86_64/discord/download/

@@ -70,12 +70,15 @@ export TIMER_FORMAT='[%d]'
 
 export MODE_INDICATOR="%F{yellow}+%f"
 
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+export PATH="/usr/local/texlive/2023/bin/x86_64-linux:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+export MANPATH="/usr/local/texlive/texmf-local/doc/man:$MANPATH"
+export INFOPATH="/usr/local/texlive/texmf-local/doc/info:$INFOPATH"
 
 # NVM Configuration
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
 
 # User Aliases
 
@@ -91,6 +94,7 @@ alias i3conf="$EDITOR ~/.i3/config"
 alias kittyconf="$EDITOR ~/.config/kitty/kitty.conf"
 alias polyconf="$EDITOR ~/.config/polybar/config.ini"
 alias dunstconf="$EDITOR ~/.config/dunst/dunstrc"
+alias csgoconf="$EDITOR ~/.steam/steam/steamapps/common/Counter-Strike\ Global\ Offensive/csgo/cfg/autoexec.cfg"
 
 alias ls='lsd'
 alias l='ls -l'

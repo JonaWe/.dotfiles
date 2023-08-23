@@ -10,4 +10,5 @@ return {
         'windwp/nvim-autopairs',
         opts = {},
     },
+    'mbbill/undotree'
 }

@@ -1,0 +1,43 @@
+sudo pamac install \
+    thunderbird \
+    telegram-desktop \
+    signal-desktop \
+    element-desktop \
+    tmux \
+    kitty \
+    neovim \
+    polybar \
+    brave \
+    rofi \
+    feh \
+    playerctl \
+    discord \
+    steam \
+    redshift \
+    vlc \
+    jq \
+    lsd \
+    manjaro-settings-manager \
+    nvidia-settings \
+    unzip \
+    gufw \
+    ttf-roboto \
+    arc-solid-gtk-theme \
+    numlockx \
+    protonmail-bridge-nogui \
+    spotify \
+    zscroll-git \
+    ttf-ms-fonts \
+    neofetch \
+    ripgrep \
+    fd \
+    noto-fonts-emoji \
+    jetbrains-toolbox \
+    jdk17-openjdkadobe-source-han-sans-otc-fonts \
+    adobe-source-han-serif-otc-fonts \
+    noto-fonts-cjk \
+    zathura \
+    zaread-git \
+    yt-dlp \
+    bat
+

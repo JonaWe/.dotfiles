@@ -1,0 +1,15 @@
+# Repair pulseaudio in manjaro i3
+
+[Unit]
+
+Description=Script
+
+[Service]
+
+ExecStart=/usr/bin/start_pulse.sh
+
+[Install]
+
+WantedBy=multi-user.target
+
+

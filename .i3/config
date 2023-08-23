@@ -226,7 +226,12 @@ exec_always --no-startup-id fix_xcursor
 exec --no-startup-id numlockx on
 
 # Audio
-exec --no-startup-id start-pulseaudio-x11
+# exec --no-startup-id start-pulseaudio-x11
+# exec --no-startup-id pa-applet
+# exec --no-startup-id pavucontrol
+
+
+
 # exec --no-startup-id pa-applet
 
 # User applications
@@ -235,14 +240,16 @@ exec --no-startup-id signal-desktop
 exec --no-startup-id telegram-desktop
 exec --no-startup-id spotify
 exec --no-startup-id discord
-# exec --no-startup-id brave
-exec --no-startup-id i3-msg 'workspace $ws8; exec brave && sleep 5'
+# exec protonmail-bridge --grp
+exec brave
+# exec --no-startup-id i3-msg 'workspace $ws8; exec brave && sleep 5'
 
 # start obs for replay buffer
 # exec --no-startup-id obs --startreplaybuffer
 
 # load my keyboard layout
-exec --no-startup-id $HOME/.kbl/update.sh
+# exec --no-startup-id $HOME/.setup/update_keyboard-layout.sh
+exec --no-startup-id update_keyboard-layout
 
 # sets wallpaper
 exec --no-startup-id feh --no-fehbg --bg-fill "$HOME/Pictures/Wallpapers/wallpaper.jpg"
@@ -289,13 +296,22 @@ set_from_resource $term_color15    color15
 
 # Theme colors
 # class                 border  backgr. text    indic.   child_border
-client.focused          #98C379 #98C379 #22252C #61AFEF
-client.focused_inactive #22252C #22252C #61AFEF #22252C
-client.unfocused        #22252C #22252C #98C379 #22252C
-client.urgent           #22252C #22252C #98C379 #22252C
-client.placeholder      #22252C #22252C #98C379 #22252C
+client.focused          #F5D48f #F5D48f #1A1919 #BAF59A
+client.focused_inactive #1A1919 #1A1919 #BAF59A #1A1919
+client.unfocused        #1A1919 #1A1919 #F5D48f #1A1919
+client.urgent           #1A1919 #1A1919 #F5D48f #1A1919
+client.placeholder      #1A1919 #1A1919 #F5D48f #1A1919
 
-client.background       #22252C
+client.background       #1A1919
+
+# class                 border  backgr. text    indic.   child_border
+# client.focused          #98C379 #98C379 #22252C #61AFEF
+# client.focused_inactive #22252C #22252C #61AFEF #22252C
+# client.unfocused        #22252C #22252C #98C379 #22252C
+# client.urgent           #22252C #22252C #98C379 #22252C
+# client.placeholder      #22252C #22252C #98C379 #22252C
+
+# client.background       #22252C
 # }}}
 
 # i3bar {{{

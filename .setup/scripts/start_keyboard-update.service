@@ -1,0 +1,15 @@
+# Updates the keyboard layout on startup
+
+[Unit]
+
+Description=Script
+
+[Service]
+
+ExecStart=/usr/bin/update_keyboard-layout
+
+[Install]
+
+WantedBy=multi-user.target
+
+
