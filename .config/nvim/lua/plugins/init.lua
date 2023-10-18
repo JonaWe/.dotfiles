@@ -10,5 +10,8 @@ return {
         'windwp/nvim-autopairs',
         opts = {},
     },
-    'mbbill/undotree'
+    'mbbill/undotree',
+    -- {
+    --     dir = '~/projects/colors.nvim'
+    -- }
 }
