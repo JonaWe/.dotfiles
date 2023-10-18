@@ -39,5 +39,8 @@ sudo pamac install \
     zathura \
     zaread-git \
     yt-dlp \
-    bat
+    bat \
+    btop \
+    maim \
+    github-cli
 

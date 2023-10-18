@@ -79,6 +79,8 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
+# setup broot command
+source /home/jona/.config/broot/launcher/bash/br
 
 # User Aliases
 
@@ -101,3 +103,7 @@ alias l='ls -l'
 alias la='ls -a'
 alias lla='ls -la'
 alias lt='ls --tree'
+
+
+
+eval "$(starship init zsh)"
