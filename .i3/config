@@ -48,8 +48,9 @@ bindsym $mod+Ctrl+m exec pavucontrol
 # Start Applications
 bindsym $mod+Ctrl+b exec $term -e 'bmenu'
 bindsym $mod+o exec brave
-bindsym $mod+e exec pcmanfm
-bindsym $mod+p exec pmac-manager
+bindsym $mod+e exec kitty ranger
+bindsym $mod+p exec pamac-manager
+bindsym $mod+t exec kitty btop
 
 # Screenshots
 bindsym Print exec --no-startup-id maim --select "/home/$USER/Pictures/screenshots/$(date).png"
@@ -122,12 +123,13 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 
 # Set shut down, restart and locking features
 bindsym $mod+minus mode "$mode_system"
-set $mode_system (s)hutdown, (r)eboot, (S)uspend, (h)ibernate
+set $mode_system (s)hutdown, (r)eboot, (S)uspend, (h)ibernate, (l)outgout
 mode "$mode_system" {
     bindsym s exec --no-startup-id i3exit shutdown, mode "default"
     bindsym r exec --no-startup-id i3exit reboot, mode "default"
     bindsym Shift+s exec --no-startup-id i3exit suspend, mode "default"
     bindsym h exec --no-startup-id i3exit hibernate, mode "default"
+    bindsym l exec --no-startup-id i3exit logout, mode "default"
 
     # exit system mode: "Enter" or "Escape"
     bindsym Return mode "default"
@@ -220,7 +222,7 @@ exec --no-startup-id nm-applet
 exec --no-startup-id xfce4-power-manager
 exec --no-startup-id pamac-tray
 exec --no-startup-id clipit
-exec --no-startup-id start_conky_maia
+# exec --no-startup-id start_conky_maia
 exec_always --no-startup-id ff-theme-util
 exec_always --no-startup-id fix_xcursor
 exec --no-startup-id numlockx on
@@ -241,6 +243,7 @@ exec --no-startup-id telegram-desktop
 exec --no-startup-id spotify
 exec --no-startup-id discord
 # exec protonmail-bridge --grp
+# exec --no-startup-id protonmail-bridge --noninteractive
 exec brave
 # exec --no-startup-id i3-msg 'workspace $ws8; exec brave && sleep 5'
 
@@ -252,7 +255,7 @@ exec brave
 exec --no-startup-id update_keyboard-layout
 
 # sets wallpaper
-exec --no-startup-id feh --no-fehbg --bg-fill "$HOME/Pictures/Wallpapers/wallpaper.jpg"
+exec --no-startup-id "shuf -e -n1 ~/Pictures/Wallpapers/active/* | xargs feh --scale-down --bg-fill --no-fehbg"
 
 # Open applications on specific workspaces
 assign [class="Signal"] $ws5
