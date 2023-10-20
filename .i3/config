@@ -8,14 +8,14 @@ set $mod Mod4
 font xft:FiraCode Nerd Font Mono 12
 
 # Set inner/outer gaps
-gaps inner 0
-gaps outer 0
+#gaps inner 0
+#gaps outer 0
 
 # Smart gaps (gaps used if only more than one container on the workspace)
-smart_gaps on
+#smart_gaps on
 
 # Smart borders (draw borders around container only if it is not the only container on this workspace)
-smart_borders on
+#smart_borders on
 
 # Configure border style <normal|1pixel|pixel xx|none|pixel>
 default_border pixel 1
@@ -36,6 +36,7 @@ floating_modifier $mod
 
 # start a terminal
 bindsym $mod+Return exec kitty
+# bindsym $mod+Return exec gnome-terminal
 
 # kill focused window
 bindsym $mod+q kill
@@ -47,7 +48,7 @@ bindsym $mod+Ctrl+m exec pavucontrol
 
 # Start Applications
 bindsym $mod+Ctrl+b exec $term -e 'bmenu'
-bindsym $mod+o exec brave
+bindsym $mod+o exec brave-browser
 bindsym $mod+e exec pcmanfm
 bindsym $mod+p exec pmac-manager
 
@@ -61,7 +62,7 @@ bindsym $mod+Ctrl+Print exec --no-startup-id maim --window $(xdotool getactivewi
 bindsym $mod+Shift+Print exec --no-startup-id maim | xclip -selection clipboard -t image/png
 
 # updates keyboard layout to german code jona
-bindsym $mod+Ctrl+k exec --no-startup-id $HOME/.kbl/update.sh
+# bindsym $mod+Ctrl+k exec --no-startup-id $HOME/.kbl/update.sh
 
 # Disable focus following mouse
 focus_follows_mouse no
@@ -122,12 +123,11 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 
 # Set shut down, restart and locking features
 bindsym $mod+minus mode "$mode_system"
-set $mode_system (s)hutdown, (r)eboot, (S)uspend, (h)ibernate
+set $mode_system (s)hutdown, (r)eboot, (l)ogout
 mode "$mode_system" {
     bindsym s exec --no-startup-id i3exit shutdown, mode "default"
     bindsym r exec --no-startup-id i3exit reboot, mode "default"
-    bindsym Shift+s exec --no-startup-id i3exit suspend, mode "default"
-    bindsym h exec --no-startup-id i3exit hibernate, mode "default"
+    bindsym l exec --no-startup-id i3-msg exit, mode "default"
 
     # exit system mode: "Enter" or "Escape"
     bindsym Return mode "default"
@@ -157,23 +157,21 @@ set $ws9 9
 set $ws10 10
 
 # Primary monitor
-set $s1 DP-0
+set $s1 DP-4
+workspace $ws1 output $s1
+workspace $ws2 output $s1
+workspace $ws3 output $s1
 workspace $ws10 output $s1
 workspace $ws9 output $s1
 workspace $ws8 output $s1
 workspace $ws7 output $s1
 
-# Left vertical monitor
-set $s2 HDMI-0
+# Left monitor
+set $s2 DP-6
 workspace $ws4 output $s2
 workspace $ws5 output $s2
 workspace $ws6 output $s2
 
-# Right monitor
-set $s3 DVI-D-0
-workspace $ws1 output $s3
-workspace $ws2 output $s3
-workspace $ws3 output $s3
 
 # Switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -225,6 +223,7 @@ exec_always --no-startup-id ff-theme-util
 exec_always --no-startup-id fix_xcursor
 exec --no-startup-id numlockx on
 
+
 # Audio
 # exec --no-startup-id start-pulseaudio-x11
 # exec --no-startup-id pa-applet
@@ -235,13 +234,14 @@ exec --no-startup-id numlockx on
 # exec --no-startup-id pa-applet
 
 # User applications
-exec --no-startup-id thunderbird
-exec --no-startup-id signal-desktop
-exec --no-startup-id telegram-desktop
-exec --no-startup-id spotify
-exec --no-startup-id discord
+#exec --no-startup-id thunderbird
+#exec --no-startup-id signal-desktop
+#exec --no-startup-id telegram-desktop
+#exec --no-startup-id spotify
+#exec --no-startup-id discord
 # exec protonmail-bridge --grp
-exec brave
+#exec brave
+exec --no-startup-id brave-browser
 # exec --no-startup-id i3-msg 'workspace $ws8; exec brave && sleep 5'
 
 # start obs for replay buffer
@@ -249,7 +249,9 @@ exec brave
 
 # load my keyboard layout
 # exec --no-startup-id $HOME/.setup/update_keyboard-layout.sh
-exec --no-startup-id update_keyboard-layout
+exec --no-startup-id setxkbmap -layout gcj
+exec --no-startup-id xmodmap /home/jona/.xmodmap
+# exec --no-startup-id update_keyboard-layout
 
 # sets wallpaper
 exec --no-startup-id feh --no-fehbg --bg-fill "$HOME/Pictures/Wallpapers/wallpaper.jpg"
@@ -260,6 +262,7 @@ assign [class="Telegram"] $ws5
 assign [class="discord"] $ws4
 assign [class="obs"] $ws6
 assign [class="thunderbird"] $ws7
+assign [class="brave-browser"] $ws8
 for_window [class="Spotify"] move to workspace $ws1
 for_window [class="thunderbird"] move container to workspace $ws7
 for_window [window_role="Msgcompose" class="*"] move container to workspace $ws7
