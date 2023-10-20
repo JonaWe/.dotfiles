@@ -51,6 +51,7 @@ bindsym $mod+Ctrl+b exec $term -e 'bmenu'
 bindsym $mod+o exec brave-browser
 bindsym $mod+e exec pcmanfm
 bindsym $mod+p exec pmac-manager
+bindsym $mod+t exec kitty btop
 
 # Screenshots
 bindsym Print exec --no-startup-id maim --select "/home/$USER/Pictures/screenshots/$(date).png"
@@ -218,7 +219,7 @@ exec --no-startup-id nm-applet
 exec --no-startup-id xfce4-power-manager
 exec --no-startup-id pamac-tray
 exec --no-startup-id clipit
-exec --no-startup-id start_conky_maia
+# exec --no-startup-id start_conky_maia
 exec_always --no-startup-id ff-theme-util
 exec_always --no-startup-id fix_xcursor
 exec --no-startup-id numlockx on
@@ -240,8 +241,9 @@ exec --no-startup-id numlockx on
 #exec --no-startup-id spotify
 #exec --no-startup-id discord
 # exec protonmail-bridge --grp
-#exec brave
 exec --no-startup-id brave-browser
+# exec --no-startup-id protonmail-bridge --noninteractive
+exec brave
 # exec --no-startup-id i3-msg 'workspace $ws8; exec brave && sleep 5'
 
 # start obs for replay buffer
@@ -254,7 +256,7 @@ exec --no-startup-id xmodmap /home/jona/.xmodmap
 # exec --no-startup-id update_keyboard-layout
 
 # sets wallpaper
-exec --no-startup-id feh --no-fehbg --bg-fill "$HOME/Pictures/Wallpapers/wallpaper.jpg"
+exec --no-startup-id "shuf -e -n1 ~/Pictures/Wallpapers/active/* | xargs feh --scale-down --bg-fill --no-fehbg"
 
 # Open applications on specific workspaces
 assign [class="Signal"] $ws5
