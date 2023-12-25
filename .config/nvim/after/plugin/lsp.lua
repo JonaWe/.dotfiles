@@ -13,6 +13,7 @@ local servers = {
     'eslint',
     'cssmodules_ls',
     'kotlin_language_server',
+    'omnisharp'
 }
 
 

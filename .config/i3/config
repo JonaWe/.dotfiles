@@ -172,7 +172,7 @@ workspace $ws5 output $s2
 workspace $ws6 output $s2
 
 # Right monitor
-set $s3 DVI-D-0
+set $s3 DP-3
 workspace $ws1 output $s3
 workspace $ws2 output $s3
 workspace $ws3 output $s3
