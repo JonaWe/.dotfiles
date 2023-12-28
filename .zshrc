@@ -74,6 +74,8 @@ export PATH="/usr/local/texlive/2023/bin/x86_64-linux:$HOME/.yarn/bin:$HOME/.con
 export MANPATH="/usr/local/texlive/texmf-local/doc/man:$MANPATH"
 export INFOPATH="/usr/local/texlive/texmf-local/doc/info:$INFOPATH"
 
+export RUSTC_WRAPPER=/usr/bin/sccache
+
 # NVM Configuration
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
