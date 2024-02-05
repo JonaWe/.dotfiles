@@ -82,7 +82,7 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
 # setup broot command
-source /home/jona/.config/broot/launcher/bash/br
+# source /home/jona/.config/broot/launcher/bash/br
 
 # User Aliases
 

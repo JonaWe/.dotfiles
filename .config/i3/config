@@ -1,5 +1,3 @@
-# vim:fileencoding=utf-8:foldmethod=marker
-
 # General Settings + Gap & Border {{{
 
 set $mod Mod4
@@ -123,22 +121,35 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 
 # Set shut down, restart and locking features
 bindsym $mod+minus mode "$mode_system"
-set $mode_system (s)hutdown, (r)eboot, (S)uspend, (h)ibernate, (l)outgout
+set $mode_system (s)hutdown, (r)eboot, (S)uspend, (h)ibernate, (l)lock, (L)logout
 mode "$mode_system" {
     bindsym s exec --no-startup-id i3exit shutdown, mode "default"
     bindsym r exec --no-startup-id i3exit reboot, mode "default"
     bindsym Shift+s exec --no-startup-id i3exit suspend, mode "default"
     bindsym h exec --no-startup-id i3exit hibernate, mode "default"
-    bindsym l exec --no-startup-id i3exit logout, mode "default"
+    bindsym l exec --no-startup-id dm-tool lock, mode "default"
+    bindsym Shift+l exec --no-startup-id i3exit logout, mode "default"
 
     # exit system mode: "Enter" or "Escape"
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
 
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 1 +1% 
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 1 -1% 
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 1 toggle 
+bindsym $mod+r mode "resize"
+mode "resize" {
+        bindsym j resize shrink height 5 px or 5 ppt
+        bindsym k resize grow height 5 px or 5 ppt
+        bindsym l resize grow width 5 px or 5 ppt
+        bindsym h resize shrink width 5 px or 5 ppt
+
+        # exit resize mode: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% 
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% 
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle 
 bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
 bindsym XF86AudioNext exec --no-startup-id playerctl next
 bindsym XF86AudioPrev exec --no-startup-id playerctl previous
@@ -159,23 +170,19 @@ set $ws9 9
 set $ws10 10
 
 # Primary monitor
-set $s1 DP-0
-workspace $ws10 output $s1
-workspace $ws9 output $s1
-workspace $ws8 output $s1
-workspace $ws7 output $s1
-
-# Left vertical monitor
-set $s2 HDMI-0
-workspace $ws4 output $s2
-workspace $ws5 output $s2
-workspace $ws6 output $s2
-
-# Right monitor
-set $s3 DP-3
-workspace $ws1 output $s3
-workspace $ws2 output $s3
-workspace $ws3 output $s3
+# set $s1 eDP
+# workspace $ws10 output $s1
+# workspace $ws9 output $s1
+# workspace $ws8 output $s1
+# workspace $ws7 output $s1
+#
+# workspace $ws4 output $s1
+# workspace $ws5 output $s1
+# workspace $ws6 output $s1
+#
+# workspace $ws1 output $s1
+# workspace $ws2 output $s1
+# workspace $ws3 output $s1
 
 # Switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -241,7 +248,7 @@ exec --no-startup-id thunderbird
 exec --no-startup-id signal-desktop
 exec --no-startup-id telegram-desktop
 exec --no-startup-id spotify
-exec --no-startup-id discord
+# exec --no-startup-id discord
 # exec protonmail-bridge --grp
 # exec --no-startup-id protonmail-bridge --noninteractive
 exec brave

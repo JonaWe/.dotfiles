@@ -42,5 +42,6 @@ sudo pamac install \
     bat \
     btop \
     maim \
-    github-cli
+    github-cli \
+    starship
 
