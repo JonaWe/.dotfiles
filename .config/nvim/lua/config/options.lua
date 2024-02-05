@@ -41,6 +41,7 @@ vim.opt.timeoutlen = 300
 vim.opt.undofile = true
 vim.opt.updatetime = 50
 vim.opt.wildmode = "longest:full,full"
+vim.opt.wrap = false
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = ","

@@ -147,9 +147,10 @@ mode "resize" {
         bindsym Escape mode "default"
 }
 
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% 
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% 
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle 
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 2 +5% 
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 2 -5% 
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 2 toggle 
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute 5 toggle 
 bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
 bindsym XF86AudioNext exec --no-startup-id playerctl next
 bindsym XF86AudioPrev exec --no-startup-id playerctl previous
@@ -247,11 +248,12 @@ exec --no-startup-id numlockx on
 exec --no-startup-id thunderbird
 exec --no-startup-id signal-desktop
 exec --no-startup-id telegram-desktop
-exec --no-startup-id spotify
+exec --no-startup-id element-desktop
+# exec --no-startup-id spotify
 # exec --no-startup-id discord
 # exec protonmail-bridge --grp
 # exec --no-startup-id protonmail-bridge --noninteractive
-exec brave
+exec --no-startup-id brave
 # exec --no-startup-id i3-msg 'workspace $ws8; exec brave && sleep 5'
 
 # start obs for replay buffer
@@ -266,6 +268,7 @@ exec --no-startup-id "shuf -e -n1 ~/Pictures/Wallpapers/active/* | xargs feh --s
 
 # Open applications on specific workspaces
 assign [class="Signal"] $ws5
+assign [class="Element"] $ws5
 assign [class="Telegram"] $ws5
 assign [class="discord"] $ws4
 assign [class="obs"] $ws6
@@ -276,9 +279,9 @@ for_window [window_role="Msgcompose" class="*"] move container to workspace $ws7
 for_window [class="Mail"] move to workspace $ws7
 
 # Open specific applications in floating mode
-for_window [title="alsamixer"] floating enable border pixel 1
-for_window [class="calamares"] floating enable border normal
-for_window [class="Clipgrab"] floating enable
+# for_window [title="alsamixer"] floating enable border pixel 1
+# for_window [class="calamares"] floating enable border normal
+# for_window [class="Clipgrab"] floating enable
 for_window [title="File Transfer*"] floating enable
 # }}}
 
