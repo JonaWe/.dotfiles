@@ -94,7 +94,7 @@ return {
                 function()
                     require("telescope.builtin").find_files({
                         prompt_title = "Neovim Config",
-                        cwd = vim.env.HOME .. "/.config/nvim",
+                        cwd = vim.env.HOME .. "/dotfiles/.config/nvim",
                         hidden = true,
                     })
                 end,
