@@ -17,11 +17,38 @@ end
 
 return {
     {
+        "folke/trouble.nvim",
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+        opts = {
+
+        },
+        keys = {
+            { "<leader>tt", function() require("trouble").toggle() end, "" },
+            { "<leader>tw", function() require("trouble").toggle("workspace_diagnostics") end, "" },
+            { "<leader>td", function() require("trouble").toggle("document_diagnostics") end, "" },
+        },
+    },
+    {
+        "j-hui/fidget.nvim",
+        lazy = false,
+        opts = {
+            progress = {
+                suppress_on_insert = true,
+                ignore = { "ltex" },
+                display = {
+                    overrides = {
+                        ltex = { name = "LTex" },
+                    },
+                },
+            },
+        },
+    },
+    {
         "neovim/nvim-lspconfig",
         dependencies = {
             { "folke/neodev.nvim", config = true },
-            { "j-hui/fidget.nvim", config = true },
             { "williamboman/mason.nvim", config = true },
+            "j-hui/fidget.nvim",
             "williamboman/mason-lspconfig.nvim",
             "hrsh7th/cmp-nvim-lsp",
             "hrsh7th/cmp-nvim-lsp-signature-help",
@@ -40,17 +67,30 @@ return {
                     "eslint",
                     "kotlin_language_server",
                     "omnisharp",
+                    "omnisharp",
+                    "ltex",
+                    "texlab",
                 },
                 handlers = {
                     function(server_name)
                         require("lspconfig")[server_name].setup({})
+                    end,
+                    ["ltex"] = function()
+                        local lspconfig = require("lspconfig")
+                        lspconfig.ltex.setup({
+                            settings = {
+                                ltex = {
+                                    language = "de-DE",
+                                },
+                            },
+                        })
                     end,
                 },
             })
 
             setup_lsp_diagnostic()
 
-            vim.keymap.set("n", "<space>cd", vim.diagnostic.open_float)
+            vim.keymap.set("n", "<space>cd", vim.diagnostic.open_float, { desc = "Open Diagnostic" })
             vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
             vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
         end,
@@ -60,11 +100,13 @@ return {
         opts = {
             formatters_by_ft = {
                 lua = { "stylua" },
+                tex = { "latexindent" },
             },
-            -- format_on_save = {
-            --     timeout_ms = 500,
-            --     lsp_fallback = true,
-            -- }
+            formatters = {
+                latexindent = {
+                    prepend_args = { "-l" },
+                },
+            }
         },
     },
     {

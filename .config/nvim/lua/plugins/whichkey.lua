@@ -19,6 +19,8 @@ return {
                 f = { name = "+Find" },
                 c = { name = "+Code" },
                 g = { name = "+Git" },
+                l = { name = "+Latex" },
+                t = { name = "+Trouble" },
             }, { prefix = "<leader>" })
         end,
     },

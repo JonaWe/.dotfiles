@@ -8,6 +8,20 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     pattern = "*",
 })
 
+
+--create auto command to set wrap on for markdown, latex and other different kinds of text files in the buffer
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = {
+        "markdown",
+        "latex",
+        "text",
+    },
+    callback = function()
+        vim.notify("Setting wrap on for markdown files")
+        vim.opt_local.wrap = true
+    end,
+})
+
 -- Check if we need to reload the file when it changed
 vim.api.nvim_create_autocmd("FocusGained", { command = "checktime" })
 
