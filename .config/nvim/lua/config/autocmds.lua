@@ -17,8 +17,8 @@ vim.api.nvim_create_autocmd("FileType", {
         "text",
     },
     callback = function()
-        vim.notify("Setting wrap on for markdown files")
         vim.opt_local.wrap = true
+        vim.opt_local.spell = false
     end,
 })
 

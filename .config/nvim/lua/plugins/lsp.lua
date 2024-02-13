@@ -19,13 +19,29 @@ return {
     {
         "folke/trouble.nvim",
         dependencies = { "nvim-tree/nvim-web-devicons" },
-        opts = {
-
-        },
+        opts = {},
         keys = {
-            { "<leader>tt", function() require("trouble").toggle() end, "" },
-            { "<leader>tw", function() require("trouble").toggle("workspace_diagnostics") end, "" },
-            { "<leader>td", function() require("trouble").toggle("document_diagnostics") end, "" },
+            {
+                "<leader>tt",
+                function()
+                    require("trouble").toggle()
+                end,
+                "",
+            },
+            {
+                "<leader>tw",
+                function()
+                    require("trouble").toggle("workspace_diagnostics")
+                end,
+                "",
+            },
+            {
+                "<leader>td",
+                function()
+                    require("trouble").toggle("document_diagnostics")
+                end,
+                "",
+            },
         },
     },
     {
@@ -42,6 +58,11 @@ return {
                 },
             },
         },
+    },
+    {
+        "mrcjkb/rustaceanvim",
+        version = "^4",
+        ft = { "rust" },
     },
     {
         "neovim/nvim-lspconfig",
@@ -73,14 +94,16 @@ return {
                 },
                 handlers = {
                     function(server_name)
-                        require("lspconfig")[server_name].setup({})
+                        if server_name ~= "rust_analyzer" then
+                            require("lspconfig")[server_name].setup({})
+                        end
                     end,
                     ["ltex"] = function()
                         local lspconfig = require("lspconfig")
                         lspconfig.ltex.setup({
                             settings = {
                                 ltex = {
-                                    language = "de-DE",
+                                    language = "en-US",
                                 },
                             },
                         })
@@ -106,7 +129,7 @@ return {
                 latexindent = {
                     prepend_args = { "-l" },
                 },
-            }
+            },
         },
     },
     {
