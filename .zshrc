@@ -74,7 +74,9 @@ export PATH="/usr/local/texlive/2023/bin/x86_64-linux:$HOME/.yarn/bin:$HOME/.con
 export MANPATH="/usr/local/texlive/texmf-local/doc/man:$MANPATH"
 export INFOPATH="/usr/local/texlive/texmf-local/doc/info:$INFOPATH"
 
-export RUSTC_WRAPPER=/usr/bin/sccache
+# export RUSTC_WRAPPER=/usr/bin/sccache
+
+export BROWSER=/usr/bin/brave
 
 # NVM Configuration
 export NVM_DIR="$HOME/.nvm"
@@ -92,12 +94,12 @@ alias config="/usr/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME"
 alias vim="nvim"
 alias v="nvim"
 
-alias zshconf="$EDITOR ~/.zshrc"
-alias omzconf="$EDITOR ~/.oh-my-zsh"
-alias i3conf="$EDITOR ~/.i3/config"
-alias kittyconf="$EDITOR ~/.config/kitty/kitty.conf"
-alias polyconf="$EDITOR ~/.config/polybar/config.ini"
-alias dunstconf="$EDITOR ~/.config/dunst/dunstrc"
+alias zshconf="$EDITOR ~/dotfiles/.zshrc"
+alias omzconf="$EDITOR ~/dotfiles/.oh-my-zsh"
+alias i3conf="$EDITOR ~/dotfiles/.config/i3/config"
+alias kittyconf="$EDITOR ~/dotfiles/.config/kitty/kitty.conf"
+alias polyconf="$EDITOR ~/dotfiles/.config/polybar/config.ini"
+alias dunstconf="$EDITOR ~/dotfiles/.config/dunst/dunstrc"
 alias csgoconf="$EDITOR ~/.steam/steam/steamapps/common/Counter-Strike\ Global\ Offensive/csgo/cfg/autoexec.cfg"
 
 alias ls='lsd'
