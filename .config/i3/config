@@ -39,7 +39,7 @@ bindsym $mod+Return exec kitty
 bindsym $mod+q kill
 
 # start program launcher
-bindsym $mod+d exec --no-startup-id rofi -show drun
+bindsym $mod+d exec --no-startup-id rofi -show drun -show-icons
 
 bindsym $mod+Ctrl+m exec pavucontrol
 
@@ -47,7 +47,7 @@ bindsym $mod+Ctrl+m exec pavucontrol
 bindsym $mod+Ctrl+b exec $term -e 'bmenu'
 bindsym $mod+o exec brave
 bindsym $mod+e exec kitty ranger
-bindsym $mod+p exec pamac-manager
+# bindsym $mod+p exec pamac-manager
 bindsym $mod+t exec kitty btop
 
 # Screenshots
@@ -121,11 +121,11 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 
 # Set shut down, restart and locking features
 bindsym $mod+minus mode "$mode_system"
-set $mode_system (s)hutdown, (r)eboot, (S)uspend, (h)ibernate, (l)lock, (L)logout
+set $mode_system (S)hutdown, (r)eboot, (s)uspend, (h)ibernate, (l)lock, (L)logout
 mode "$mode_system" {
-    bindsym s exec --no-startup-id i3exit shutdown, mode "default"
+    bindsym Shift+s exec --no-startup-id i3exit shutdown, mode "default"
     bindsym r exec --no-startup-id i3exit reboot, mode "default"
-    bindsym Shift+s exec --no-startup-id i3exit suspend, mode "default"
+    bindsym s exec --no-startup-id i3exit suspend, mode "default"
     bindsym h exec --no-startup-id i3exit hibernate, mode "default"
     bindsym l exec --no-startup-id dm-tool lock, mode "default"
     bindsym Shift+l exec --no-startup-id i3exit logout, mode "default"
@@ -169,6 +169,9 @@ set $ws7 7
 set $ws8 8
 set $ws9 9
 set $ws10 10
+
+# set $wsMessages "󰍩"
+# bindsym $mod+p [class="Signal"] focus
 
 # Primary monitor
 # set $s1 eDP
@@ -223,12 +226,41 @@ bindsym $mod+Shift+0 move container to workspace $ws10; workspace $ws10
 # }}}
 
 # Applications {{{
+#
+# Open applications on specific workspaces
+assign [class="Signal"] $ws5
+assign [class="Element"] $ws5
+assign [class="Telegram"] $ws5
+assign [class="thunderbird"] $ws7
+assign [class="kitty"] $ws9
+for_window [class="calendar.proton.me__u_0"] move to workspace $ws6
+for_window [class="Spotify"] move to workspace $ws1
+# assign [class="calendar.proton.me__u_0"] $ws6
+assign [window_role="browser"] $ws8
+
+for_window [class="Signal"] layout tabbed
+for_window [class="Element"] layout tabbed
+for_window [class="Telegram"] layout tabbed
+# for_window [class="calendar.proton.me__u_0"] move to workspace $ws6
+
+# for_window [class="thunderbird"] move container to workspace $ws7
+# for_window [window_role="Msgcompose" class="*"] move container to workspace $ws8
+# for_window [class="Mail"] move to workspace $ws7
+
+# Open specific applications in floating mode
+# for_window [title="alsamixer"] floating enable border pixel 1
+# for_window [class="calamares"] floating enable border normal
+# for_window [class="Clipgrab"] floating enable
+for_window [title="File Transfer*"] floating enable
+for_window [class="jetbrains-toolbox"] floating disable
 
 # System applications
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id nm-applet
 exec --no-startup-id xfce4-power-manager
 exec --no-startup-id pamac-tray
+exec --no-startup-id blueman-applet
+exec --no-startup-id /home/jona/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox --minimize
 exec --no-startup-id clipit
 # exec --no-startup-id start_conky_maia
 exec_always --no-startup-id ff-theme-util
@@ -249,40 +281,22 @@ exec --no-startup-id thunderbird
 exec --no-startup-id signal-desktop
 exec --no-startup-id telegram-desktop
 exec --no-startup-id element-desktop
-# exec --no-startup-id spotify
+exec --no-startup-id spotify-launcher
+exec --no-startup-id "kitty tmux new-session -A -s main"
+
 # exec --no-startup-id discord
 # exec protonmail-bridge --grp
 # exec --no-startup-id protonmail-bridge --noninteractive
 exec --no-startup-id brave
-# exec --no-startup-id i3-msg 'workspace $ws8; exec brave && sleep 5'
+exec --no-startup-id "brave --app=https://calendar.proton.me/u/0/"
 
-# start obs for replay buffer
-# exec --no-startup-id obs --startreplaybuffer
 
 # load my keyboard layout
-# exec --no-startup-id $HOME/.setup/update_keyboard-layout.sh
 exec --no-startup-id update_keyboard-layout
 
 # sets wallpaper
 exec --no-startup-id "shuf -e -n1 ~/Pictures/Wallpapers/active/* | xargs feh --scale-down --bg-fill --no-fehbg"
 
-# Open applications on specific workspaces
-assign [class="Signal"] $ws5
-assign [class="Element"] $ws5
-assign [class="Telegram"] $ws5
-assign [class="discord"] $ws4
-assign [class="obs"] $ws6
-assign [class="thunderbird"] $ws7
-for_window [class="Spotify"] move to workspace $ws1
-for_window [class="thunderbird"] move container to workspace $ws7
-for_window [window_role="Msgcompose" class="*"] move container to workspace $ws7
-for_window [class="Mail"] move to workspace $ws7
-
-# Open specific applications in floating mode
-# for_window [title="alsamixer"] floating enable border pixel 1
-# for_window [class="calamares"] floating enable border normal
-# for_window [class="Clipgrab"] floating enable
-for_window [title="File Transfer*"] floating enable
 # }}}
 
 # Colors {{{
