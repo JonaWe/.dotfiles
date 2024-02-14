@@ -1,5 +1,6 @@
 configuration {
-  modi: "drun";
+  modes: "drun";
   font: "FiraCode Nerd Font Mono 14";
 }
-@theme "Arc-Dark.rasi"
+
+@theme "jona"
