@@ -45,7 +45,7 @@ bindsym $mod+Ctrl+m exec pavucontrol
 
 # Start Applications
 bindsym $mod+Ctrl+b exec $term -e 'bmenu'
-bindsym $mod+o exec brave
+# bindsym $mod+o exec brave
 bindsym $mod+e exec kitty ranger
 # bindsym $mod+p exec pamac-manager
 bindsym $mod+t exec kitty btop
@@ -91,9 +91,9 @@ bindsym $mod+v split v
 bindsym $mod+f fullscreen toggle
 
 # Change container layout (stacked, tabbed, toggle split)
-bindsym $mod+Shift+u layout toggle split
-bindsym $mod+Shift+i layout tabbed
-bindsym $mod+Shift+o layout stacking
+# bindsym $mod+Shift+u layout toggle split
+# bindsym $mod+Shift+i layout tabbed
+# bindsym $mod+Shift+o layout stacking
 
 # Toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
@@ -108,7 +108,7 @@ bindsym $mod+Shift+s sticky toggle
 bindsym $mod+a focus parent
 
 # hide/unhide i3status bar
-bindsym $mod+m bar mode toggle
+# bindsym $mod+m bar mode toggle
 
 # Reload the configuration file
 bindsym $mod+Shift+c reload
@@ -131,6 +131,7 @@ mode "$mode_system" {
     bindsym Shift+l exec --no-startup-id i3exit logout, mode "default"
 
     # exit system mode: "Enter" or "Escape"
+    bindsym q mode "default"
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
@@ -143,8 +144,22 @@ mode "resize" {
         bindsym h resize shrink width 5 px or 5 ppt
 
         # exit resize mode: Enter or Escape
+        bindsym q mode "default"
         bindsym Return mode "default"
         bindsym Escape mode "default"
+}
+
+bindsym $mod+slash mode "$playerctl"
+
+set $playerctl (space)play/pause, (n)ext, (p)revious
+mode "$playerctl" {
+    bindsym space exec --no-startup-id playerctl play-pause
+    bindsym n exec --no-startup-id playerctl next
+    bindsym p exec --no-startup-id playerctl previous
+    # exit system mode: "Enter" or "Escape"
+    bindsym q mode "default"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
 }
 
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 2 +5% 
@@ -170,8 +185,16 @@ set $ws8 8
 set $ws9 9
 set $ws10 10
 
-# set $wsMessages "󰍩"
+set $ws11 11
+set $ws15 15
+set $ws16 16
+set $ws17 17
+set $ws18 18
+set $ws19 19
+
 # bindsym $mod+p [class="Signal"] focus
+
+# set $wsMessages "󰍩"
 
 # Primary monitor
 # set $s1 eDP
@@ -199,6 +222,20 @@ bindsym $mod+7 workspace $ws7
 bindsym $mod+8 workspace $ws8
 bindsym $mod+9 workspace $ws9
 bindsym $mod+0 workspace $ws10
+
+bindsym $mod+m workspace $ws11
+bindsym $mod+u workspace $ws15
+bindsym $mod+n workspace $ws16
+bindsym $mod+p workspace $ws17
+bindsym $mod+i workspace $ws18
+bindsym $mod+o workspace $ws19
+
+bindsym $mod+Shift+m move container to workspace $ws11; workspace $ws11
+bindsym $mod+Shift+u move container to workspace $ws15; workspace $ws15
+bindsym $mod+Shift+n move container to workspace $ws16; workspace $ws16
+bindsym $mod+Shift+p move container to workspace $ws17; workspace $ws17
+bindsym $mod+Shift+i move container to workspace $ws18; workspace $ws18
+bindsym $mod+Shift+o move container to workspace $ws19; workspace $ws19
 
 # Move focused container to workspace
 bindsym $mod+Ctrl+1 move container to workspace $ws1
@@ -228,29 +265,18 @@ bindsym $mod+Shift+0 move container to workspace $ws10; workspace $ws10
 # Applications {{{
 #
 # Open applications on specific workspaces
-assign [class="Signal"] $ws5
-assign [class="Element"] $ws5
-assign [class="Telegram"] $ws5
-assign [class="thunderbird"] $ws7
-assign [class="kitty"] $ws9
-for_window [class="calendar.proton.me__u_0"] move to workspace $ws6
-for_window [class="Spotify"] move to workspace $ws1
-# assign [class="calendar.proton.me__u_0"] $ws6
-assign [window_role="browser"] $ws8
+assign [class="Signal"] $ws15
+assign [class="Element"] $ws15
+assign [class="Telegram"] $ws15
+assign [class="thunderbird"] $ws17
+for_window [class="calendar.proton.me__u_0"] move to workspace $ws16
+for_window [class="Spotify"] move to workspace $ws11
+assign [window_role="browser"] $ws18
 
 for_window [class="Signal"] layout tabbed
 for_window [class="Element"] layout tabbed
 for_window [class="Telegram"] layout tabbed
-# for_window [class="calendar.proton.me__u_0"] move to workspace $ws6
 
-# for_window [class="thunderbird"] move container to workspace $ws7
-# for_window [window_role="Msgcompose" class="*"] move container to workspace $ws8
-# for_window [class="Mail"] move to workspace $ws7
-
-# Open specific applications in floating mode
-# for_window [title="alsamixer"] floating enable border pixel 1
-# for_window [class="calamares"] floating enable border normal
-# for_window [class="Clipgrab"] floating enable
 for_window [title="File Transfer*"] floating enable
 for_window [class="jetbrains-toolbox"] floating disable
 
@@ -282,13 +308,16 @@ exec --no-startup-id signal-desktop
 exec --no-startup-id telegram-desktop
 exec --no-startup-id element-desktop
 exec --no-startup-id spotify-launcher
-exec --no-startup-id "kitty tmux new-session -A -s main"
+# exec --no-startup-id "kitty tmux new-session -A -s main"
+exec --no-startup-id i3-msg 'workspace 19; exec /usr/bin/kitty tmux new-session -A -s main'
+
 
 # exec --no-startup-id discord
 # exec protonmail-bridge --grp
 # exec --no-startup-id protonmail-bridge --noninteractive
 exec --no-startup-id brave
-exec --no-startup-id "brave --app=https://calendar.proton.me/u/0/"
+# exec --no-startup-id "brave --app=https://calendar.proton.me/u/0/"
+exec --no-startup-id i3-msg 'workspace 16; exec /usr/bin/brave --app=https://calendar.proton.me/u/0/'
 
 
 # load my keyboard layout
