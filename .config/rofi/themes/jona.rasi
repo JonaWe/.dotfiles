@@ -17,9 +17,10 @@ configuration {
   padding: 0;
   spacing: 0;
 
-  bg: #1A1919;
-  bg-90: #212020;
-  bg-alt: #2E2C2C;
+  //bg: #1A1919;
+  bg: #212020;
+  bg-90: #292828;
+  bg-alt: #333131;
   fg: #FFFEFC;
   fg-alt: #F5D487;
 
@@ -44,6 +45,7 @@ scrollbar {
 inputbar {
   background-color: @bg-alt;
   children: [prompt, entry];
+  padding: 6px;
   margin: 0 0 10px 0;
 }
 
