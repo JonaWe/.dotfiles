@@ -150,12 +150,23 @@ mode "resize" {
 }
 
 bindsym $mod+slash mode "$playerctl"
-
 set $playerctl (space)play/pause, (n)ext, (p)revious
 mode "$playerctl" {
     bindsym space exec --no-startup-id playerctl play-pause
     bindsym n exec --no-startup-id playerctl next
     bindsym p exec --no-startup-id playerctl previous
+    # exit system mode: "Enter" or "Escape"
+    bindsym q mode "default"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+bindsym $mod+u mode "$messenger"
+set $messenger (s)ignal, (t)elegram, (e)lement
+mode "$messenger" {
+    bindsym t [class="Telegram"] focus, mode "default"
+    bindsym e [class="Element"] focus, mode "default"
+    bindsym s [class="Signal"] focus, mode "default"
     # exit system mode: "Enter" or "Escape"
     bindsym q mode "default"
     bindsym Return mode "default"
@@ -224,7 +235,7 @@ bindsym $mod+9 workspace $ws9
 bindsym $mod+0 workspace $ws10
 
 bindsym $mod+m workspace $ws11
-bindsym $mod+u workspace $ws15
+# bindsym $mod+u workspace $ws15
 bindsym $mod+n workspace $ws16
 bindsym $mod+p workspace $ws17
 bindsym $mod+i workspace $ws18
