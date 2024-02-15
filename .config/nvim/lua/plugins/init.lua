@@ -93,4 +93,12 @@ return {
             },
         },
     },
+    {
+        "norcalli/nvim-colorizer.lua",
+        opts = {
+            ["*"] = {
+                names = false,
+            },
+        },
+    },
 }
