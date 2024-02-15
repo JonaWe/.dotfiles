@@ -2,7 +2,7 @@
 
 color="#$1"
 
-device="hidpp_battery_0"
+device="BAT0"
 device_path="/sys/class/power_supply/$device"
 
 if [ ! -d "$device_path" ]; then
@@ -45,12 +45,12 @@ if [[ "$device_status" == "Discharging" ]]; then
     exit
 fi
 
-connected_devices="$(find /sys/class/power_supply/hidpp_battery_* -maxdepth 0 | wc -l)"
-
-if [ "$connected_devices" -eq "1" ]; then
-    echo "%{F$color}%{F-} $device_capacity%"
-    exit
-fi
+# connected_devices="$(find /sys/class/power_supply/hidpp_battery_* -maxdepth 0 | wc -l)"
+#
+# if [ "$connected_devices" -eq "1" ]; then
+#     echo "%{F$color}%{F-} $device_capacity%"
+#     exit
+# fi
 
 if [[ "$device_capacity" -lt "20" ]]; then
     echo "%{F$color}%{F-} $device_capacity%"
