@@ -18,7 +18,7 @@ xkb_symbols "basic" {
     key <AE03>	{[ 3, ampersand, threesuperior ]};
     key <AE04>	{[ 4, dollar ]};
     key <AE06>	{[ 6, section ]};
-    key <AE07>	{[ 7, acute ]};
+    key <AE07>	{[ 7, grave ]};
     key <AE08>	{[ 8, less ]};
     key <AE09>	{[ 9, greater ]};
     key <AE10>	{[ 0, equal ]};
