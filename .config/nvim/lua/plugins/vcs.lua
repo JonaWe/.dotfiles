@@ -1,5 +1,13 @@
 return {
     {
+        "akinsho/git-conflict.nvim",
+        version = "*",
+        config = true,
+        keys = {
+            { "<leader>gc", "<cmd>GitConflictListQf<cr>", desc = "Git Conflict" },
+        },
+    },
+    {
         "sindrets/diffview.nvim",
         cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFocusFiles" },
         config = true,

@@ -101,6 +101,7 @@ return {
                     ["ltex"] = function()
                         local lspconfig = require("lspconfig")
                         lspconfig.ltex.setup({
+                            filetypes = { "tex" },
                             settings = {
                                 ltex = {
                                     language = "en-US",
