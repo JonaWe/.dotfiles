@@ -139,6 +139,7 @@ return {
             require("lint").linters_by_ft = {
                 markdown = { "markdownlint" },
                 python = { "pylint" },
+                vue = { "eslint" },
             }
 
             vim.api.nvim_create_autocmd({ "BufWritePost" }, {

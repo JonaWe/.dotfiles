@@ -69,8 +69,8 @@ export DEFAULT_USER="jona"
 export TIMER_FORMAT='[%d]'
 
 export MODE_INDICATOR="%F{yellow}+%f"
-
-export PATH="/usr/local/texlive/2023/bin/x86_64-linux:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:/home/jona/.local/share/bob/nvim-bin:$PATH"
+export DENO_INSTALL="/home/jona/.deno"
+export PATH="$DENO_INSTALL/bin:/usr/local/texlive/2023/bin/x86_64-linux:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:/home/jona/.local/share/bob/nvim-bin:$PATH"
 export MANPATH="/usr/local/texlive/texmf-local/doc/man:$MANPATH"
 export INFOPATH="/usr/local/texlive/texmf-local/doc/info:$INFOPATH"
 
