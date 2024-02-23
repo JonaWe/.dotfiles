@@ -4,15 +4,17 @@ set $mod Mod4
 
 input type:keyboard {
     xkb_layout "gcj"
+    # xkb_file ~/dotfiles/scripts/keyboard-layout/gcj
 }
 
 input type:touchpad {
     tap enable
     natural_scroll enable
     # accel_profile adaptive
-    # pointer_accel 0.5
+    pointer_accel 0.25
 }
 
+output DP-2 scale 1.25 scale_filter linear
 
 output "*" bg ~/Pictures/Wallpapers/active/JW_01960.jpg fill
 
