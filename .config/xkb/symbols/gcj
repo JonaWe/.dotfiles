@@ -13,8 +13,6 @@ xkb_symbols "basic" {
     include "level3(ralt_switch)"
 
     key <ESC>   {[ Escape ]};
-    key <CAPS>  {[ Control_L ]};
-    key <LCTL>  {[ Escape ]};
     key <SCLK>   {[ Caps_Lock ]};
 
     key <TLDE>	{[ asciicircum, degree ]};

@@ -1,10 +1,17 @@
-# set $touchpad "1739:52840:SYNA8019:00_06CB:CE68_Touchpad"
-
 set $mod Mod4
+set $term kitty
+# set $asd grim -g "$(swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | "\(.rect.x+.window_rect.x),\(.rect.y+.window_rect.y) \(.window_rect.width)x\(.window_rect.height)"' | slurp)" - | wl-copy
+set $slurp_window "$(swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | "\(.rect.x+.window_rect.x),\(.rect.y+.window_rect.y) \(.window_rect.width)x\(.window_rect.height)"' | slurp)"
+
+# set $wallpaper_shuffle "shuf -e -n1 ~/Pictures/Wallpapers/active/* | xargs swww img --transition-type center"
+set $wallpaper_shuffle "shuf -e -n1 ~/Pictures/Wallpapers/selection/* | xargs -I {} ln -sf {} ~/Pictures/Wallpapers/active.jpg"
+# set $ "wallpaper_set -e -n1 ~/Pictures/Wallpapers/active/* | xargs swww img --transition-type center"
 
 input type:keyboard {
     xkb_layout "gcj"
-    # xkb_file ~/dotfiles/scripts/keyboard-layout/gcj
+    xkb_options caps:ctrl_modifier
+    repeat_delay 1000
+    repeat_rate 25
 }
 
 input type:touchpad {
@@ -14,23 +21,23 @@ input type:touchpad {
     pointer_accel 0.25
 }
 
-output DP-2 scale 1.25 scale_filter linear
+output DP-2 scale 1.5 scale_filter linear position 0 0
+# res = 3840x2160 * (1 / scale)
+# 1.5 = 2560x1440
+# y-offset = 1440
+# x-offsest = 2560-1920 / 2 = 320
+output eDP-1 scale 1 pos 320 1440
+# res = 1920x1200
 
-output "*" bg ~/Pictures/Wallpapers/active/JW_01960.jpg fill
 
+for_window [shell="xwayland"] title_format "[XW] %title"
 
-for_window [shell="xwayland"] title_format "[XWayland] %title"
-
-exec swaync
-
-bindsym $mod+g swaync-client -t -sw
-
+# exec --no-startup-id swayidle.sh
 
 # General Settings + Gap & Border {{{
 
-
 # Font for window titles
-font xft:FiraCode Nerd Font Mono 12
+font xft:FiraCode Nerd Font 12
 
 # Set inner/outer gaps
 gaps inner 0
@@ -60,7 +67,7 @@ for_window [class=^.*] border pixel 1
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec kitty
+bindsym $mod+Return exec $term
 
 # kill focused window
 bindsym $mod+q kill
@@ -71,23 +78,28 @@ bindsym $mod+d exec --no-startup-id rofi -show drun -show-icons
 bindsym $mod+Ctrl+m exec pavucontrol
 
 # Start Applications
-bindsym $mod+Ctrl+b exec $term -e 'bmenu'
+# bindsym $mod+Ctrl+b exec $term -e 'bmenu'
 # bindsym $mod+o exec brave
-bindsym $mod+e exec kitty ranger
+bindsym $mod+e exec $term ranger
 # bindsym $mod+p exec pamac-manager
-bindsym $mod+t exec kitty btop
+bindsym $mod+t exec $term btop
 
-# Screenshots
-bindsym Print exec --no-startup-id maim --select "/home/$USER/Pictures/screenshots/$(date).png"
-bindsym Ctrl+Print exec --no-startup-id maim --window $(xdotool getactivewindow) "/home/$USER/Pictures/screenshots/$(date).png"
-bindsym Shift+Print exec --no-startup-id maim "/home/$USER/Pictures/screenshots/$(date).png"
+bindsym $mod+g exec swaync-client -t -sw
 
-bindsym $mod+Print exec --no-startup-id maim --select | xclip -selection clipboard -t image/png
-bindsym $mod+Ctrl+Print exec --no-startup-id maim --window $(xdotool getactivewindow) | xclip -selection clipboard -t image/png
-bindsym $mod+Shift+Print exec --no-startup-id maim | xclip -selection clipboard -t image/png
+bindsym $mod+shift+t exec ~/.local/bin/random_wallpaper.sh
 
-# updates keyboard layout to german code jona
-bindsym $mod+Ctrl+k exec --no-startup-id $HOME/.kbl/update.sh
+# set $asd grim -g "$(swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | "\(.rect.x+.window_rect.x),\(.rect.y+.window_rect.y) \(.window_rect.width)x\(.window_rect.height)"' | slurp)" - | wl-copy
+
+bindsym Print exec "grim -g $slurp_window - | wl-copy"
+bindsym $mod+Print exec "grim -g '$(slurp)' - | wl-copy"
+# # Screenshots
+# bindsym Print exec --no-startup-id maim --select "/home/$USER/Pictures/screenshots/$(date).png"
+# bindsym Ctrl+Print exec --no-startup-id maim --window $(xdotool getactivewindow) "/home/$USER/Pictures/screenshots/$(date).png"
+# bindsym Shift+Print exec --no-startup-id maim "/home/$USER/Pictures/screenshots/$(date).png"
+
+# bindsym $mod+Print exec --no-startup-id maim --select | xclip -selection clipboard -t image/png
+# bindsym $mod+Ctrl+Print exec --no-startup-id maim --window $(xdotool getactivewindow) | xclip -selection clipboard -t image/png
+# bindsym $mod+Shift+Print exec --no-startup-id maim | xclip -selection clipboard -t image/png
 
 # Disable focus following mouse
 focus_follows_mouse no
@@ -117,11 +129,6 @@ bindsym $mod+v split v
 # Toggle fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
 
-# Change container layout (stacked, tabbed, toggle split)
-# bindsym $mod+Shift+u layout toggle split
-# bindsym $mod+Shift+i layout tabbed
-# bindsym $mod+Shift+o layout stacking
-
 # Toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
 
@@ -132,30 +139,21 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+Shift+s sticky toggle
 
 # Focus the parent container
-bindsym $mod+a focus parent
-
-# hide/unhide i3status bar
-# bindsym $mod+m bar mode toggle
+# bindsym $mod+a focus parent
 
 # Reload the configuration file
 bindsym $mod+Shift+c reload
 
 # Restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+r restart
+# bindsym $mod+Shift+r restart
 
-# Exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+# bindsym $mod+Shift+e exec "swaymsg -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'swaymsg exit'"
 
-# Set shut down, restart and locking features
-bindsym $mod+minus exec wlogout
-set $mode_system (S)hutdown, (r)eboot, (s)uspend, (h)ibernate, (l)lock, (L)logout
-mode "$mode_system" {
-    bindsym Shift+s exec --no-startup-id i3exit shutdown, mode "default"
-    bindsym r exec --no-startup-id i3exit reboot, mode "default"
-    bindsym s exec --no-startup-id i3exit suspend, mode "default"
-    bindsym h exec --no-startup-id i3exit hibernate, mode "default"
-    bindsym l exec --no-startup-id dm-tool lock, mode "default"
-    bindsym Shift+l exec --no-startup-id i3exit logout, mode "default"
+set $mode_layout (s)plit (t)abbet
+bindsym $mod+ctrl+l mode "$mode_layout
+mode "$mode_layout" {
+    bindsym s layout toggle split, mode "default"
+    bindsym t layout tabbed, mode "default"
 
     # exit system mode: "Enter" or "Escape"
     bindsym q mode "default"
@@ -163,8 +161,27 @@ mode "$mode_system" {
     bindsym Escape mode "default"
 }
 
-bindsym $mod+r mode "resize"
-mode "resize" {
+# Set shut down, restart and locking features
+# bindsym $mod+minus exec wlogout
+set $mode_system (S)hutdown, (r)eboot, (s)uspend, (h)ibernate, (l)lock, (L)logout
+bindsym $mod+minus mode "$mode_system"
+mode "$mode_system" {
+    bindsym Shift+s exec --no-startup-id systemctl poweroff, mode "default"
+    bindsym r exec --no-startup-id systemctl reboot, mode "default"
+    bindsym s exec --no-startup-id systemctl suspend, mode "default"
+    bindsym h exec --no-startup-id systemctl hibernate, mode "default"
+    bindsym l exec --no-startup-id swaylock, mode "default"
+    bindsym Shift+l exec --no-startup-id swaymsg exit, mode "default"
+
+    # exit system mode: "Enter" or "Escape"
+    bindsym q mode "default"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+set $mode_resize Resize
+bindsym $mod+r mode "$mode_resize"
+mode "$mode_resize" {
         bindsym j resize shrink height 5 px or 5 ppt
         bindsym k resize grow height 5 px or 5 ppt
         bindsym l resize grow width 5 px or 5 ppt
@@ -176,8 +193,8 @@ mode "resize" {
         bindsym Escape mode "default"
 }
 
-bindsym $mod+slash mode "$playerctl"
 set $playerctl (space)play/pause, (n)ext, (p)revious
+bindsym $mod+parenright mode "$playerctl"
 mode "$playerctl" {
     bindsym space exec --no-startup-id playerctl play-pause
     bindsym n exec --no-startup-id playerctl next
@@ -262,16 +279,20 @@ bindsym $mod+9 workspace $ws9
 bindsym $mod+0 workspace $ws10
 
 bindsym $mod+m workspace $ws11
+bindsym $mod+slash workspace $ws12
 bindsym $mod+u workspace $ws15
 bindsym $mod+n workspace $ws16
-bindsym $mod+p workspace $ws17
+bindsym $mod+p workspace $ws13
+bindsym $mod+parenleft workspace $ws17
 bindsym $mod+i workspace $ws18
 bindsym $mod+o workspace $ws19
 
 bindsym $mod+Shift+m move container to workspace $ws11; workspace $ws11
+bindsym $mod+Shift+slash move container to workspace $ws12; workspace $ws12
 bindsym $mod+Shift+u move container to workspace $ws15; workspace $ws15
 bindsym $mod+Shift+n move container to workspace $ws16; workspace $ws16
-bindsym $mod+Shift+p move container to workspace $ws17; workspace $ws17
+bindsym $mod+Shift+p move container to workspace $ws13; workspace $ws13
+bindsym $mod+Shift+parenleft move container to workspace $ws17; workspace $ws17
 bindsym $mod+Shift+i move container to workspace $ws18; workspace $ws18
 bindsym $mod+Shift+o move container to workspace $ws19; workspace $ws19
 
@@ -321,15 +342,14 @@ for_window [class="jetbrains-toolbox"] floating disable
 # System applications
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id nm-applet
-exec --no-startup-id xfce4-power-manager
-exec --no-startup-id pamac-tray
 exec --no-startup-id blueman-applet
 exec --no-startup-id /home/jona/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox --minimize
-exec --no-startup-id clipit
-# exec --no-startup-id start_conky_maia
-exec_always --no-startup-id ff-theme-util
-exec_always --no-startup-id fix_xcursor
-exec --no-startup-id numlockx on
+exec --no-startup-id swaync
+exec --no-startup-id /home/jona/.local/bin/swayidle.sh
+
+# exec --no-startup-id xfce4-power-manager
+# exec --no-startup-id pamac-tray
+# exec --no-startup-id clipit
 
 # Audio
 # exec --no-startup-id start-pulseaudio-x11
@@ -337,32 +357,22 @@ exec --no-startup-id numlockx on
 # exec --no-startup-id pavucontrol
 
 
-
-# exec --no-startup-id pa-applet
-
 # User applications
-exec --no-startup-id thunderbird
+exec --no-startup-id swaymsg 'workspace 17; exec /usr/bin/thunderbird'
 exec --no-startup-id signal-desktop
-exec --no-startup-id telegram-desktop
+exec --no-startup-id swaymsg 'workspace 15; exec /usr/bin/telegram-desktop'
 exec --no-startup-id element-desktop
 exec --no-startup-id spotify-launcher
-# exec --no-startup-id "kitty tmux new-session -A -s main"
-exec --no-startup-id i3-msg 'workspace 19; exec /usr/bin/kitty tmux new-session -A -s main'
-
-
-# exec --no-startup-id discord
-# exec protonmail-bridge --grp
+exec --no-startup-id swaymsg 'workspace 19; exec /usr/bin/kitty tmux new-session -A -s main'
 exec --no-startup-id protonmail-bridge --noninteractive
 exec --no-startup-id brave
-# exec --no-startup-id "brave --app=https://calendar.proton.me/u/0/"
-exec --no-startup-id i3-msg 'workspace 16; exec /usr/bin/brave --app=https://calendar.proton.me/u/0/'
+exec --no-startup-id swaymsg 'workspace 16; exec /usr/bin/brave --app=https://calendar.proton.me/u/0/'
 
-
-# load my keyboard layout
-exec --no-startup-id update_keyboard-layout
 
 # sets wallpaper
-exec --no-startup-id "shuf -e -n1 ~/Pictures/Wallpapers/active/* | xargs feh --scale-down --bg-fill --no-fehbg"
+exec --no-startup-id swww init
+exec --no-startup-id $wallpaper_shuffle
+exec --no-startup-id swww img ~/Pictures/Wallpapers/active.jpg
 
 # }}}
 

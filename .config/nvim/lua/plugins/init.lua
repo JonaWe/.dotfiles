@@ -4,7 +4,14 @@ return {
         priority = 1000,
         config = function()
             local tokyonight = require("tokyonight")
-            tokyonight.setup({ style = "moon" })
+            tokyonight.setup({
+                style = "moon",
+                -- transparent = true,
+                -- styles = {
+                --     floats = "transparent",
+                --     sidebars = "transparent",
+                -- },
+            })
             tokyonight.load()
         end,
     },
@@ -106,9 +113,15 @@ return {
         event = { "VeryLazy" },
         build = "deno task --quiet build:fast",
         config = function()
-            require("peek").setup()
+            -- require("peek").setup()
+            require("peek").setup({ app = { "browser" } })
             vim.api.nvim_create_user_command("PeekOpen", require("peek").open, {})
             vim.api.nvim_create_user_command("PeekClose", require("peek").close, {})
         end,
+    },
+    {
+        "folke/todo-comments.nvim",
+        dependencies = { "nvim-lua/plenary.nvim" },
+        config = true,
     },
 }

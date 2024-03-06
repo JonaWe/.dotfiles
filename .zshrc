@@ -15,17 +15,17 @@ plugins=(
 #ZSH_THEME="robbyrussell"
 #ZSH_THEME="rkj-repos"
 #ZSH_THEME="xiong-chiamiov-plus"
-ZSH_THEME="agnoster"
+# ZSH_THEME="agnoster"
 
-ZSH_THEME_RANDOM_CANDIDATES=(
-  "agnoster"
-  "duellj"
-  "amuse"
-  "awesomepanda"
-  "robbyrussell"
-  "rkj-repos"
-  "xiong-chiamiov-plus"
-)
+# ZSH_THEME_RANDOM_CANDIDATES=(
+#   "agnoster"
+#   "duellj"
+#   "amuse"
+#   "awesomepanda"
+#   "robbyrussell"
+#   "rkj-repos"
+#   "xiong-chiamiov-plus"
+# )
 
 ENABLE_CORRECTION=true
 CASE_SENSITIVE=false
@@ -51,15 +51,6 @@ source $ZSH/oh-my-zsh.sh
 # much, much faster.
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
-# HIST_STAMPS="mm/dd/yyyy"
-
-
 # User Configuration
 
 export EDITOR=nvim
@@ -70,7 +61,7 @@ export TIMER_FORMAT='[%d]'
 
 export MODE_INDICATOR="%F{yellow}+%f"
 export DENO_INSTALL="/home/jona/.deno"
-export PATH="$DENO_INSTALL/bin:/usr/local/texlive/2023/bin/x86_64-linux:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:/home/jona/.local/share/bob/nvim-bin:$PATH"
+export PATH="$HOME/.local/bin:$DENO_INSTALL/bin:/usr/local/texlive/2023/bin/x86_64-linux:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:/home/jona/.local/share/bob/nvim-bin:$PATH"
 export MANPATH="/usr/local/texlive/texmf-local/doc/man:$MANPATH"
 export INFOPATH="/usr/local/texlive/texmf-local/doc/info:$INFOPATH"
 
@@ -88,18 +79,17 @@ export NVM_DIR="$HOME/.nvm"
 
 # User Aliases
 
-
-alias config="/usr/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME"
+alias cd="echo '\033[0;31m$(cowsay \'REMEMBER TO USE THE Z INSTEAD OF CD\')\033[0m'; cd"
 
 alias vim="nvim"
 alias v="nvim"
 
 alias zshconf="$EDITOR ~/dotfiles/.zshrc"
 alias omzconf="$EDITOR ~/dotfiles/.oh-my-zsh"
-alias i3conf="$EDITOR ~/dotfiles/.config/i3/config"
+# alias i3conf="$EDITOR ~/dotfiles/.config/i3/config"
 alias kittyconf="$EDITOR ~/dotfiles/.config/kitty/kitty.conf"
-alias polyconf="$EDITOR ~/dotfiles/.config/polybar/config.ini"
-alias dunstconf="$EDITOR ~/dotfiles/.config/dunst/dunstrc"
+# alias polyconf="$EDITOR ~/dotfiles/.config/polybar/config.ini"
+# alias dunstconf="$EDITOR ~/dotfiles/.config/dunst/dunstrc"
 alias csgoconf="$EDITOR ~/.steam/steam/steamapps/common/Counter-Strike\ Global\ Offensive/csgo/cfg/autoexec.cfg"
 
 alias ls='lsd'
@@ -109,5 +99,9 @@ alias lla='ls -la'
 alias lt='ls --tree'
 
 
+alias sshpi='ssh pi@192.168.188.129'
+alias pas='paru --bottomup --sortby votes --bat /usr/bin/bat'
+# alias pas='paru --bottomup --sortby popularity --bat /usr/bin/bat'
 
+eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
