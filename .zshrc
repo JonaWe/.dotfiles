@@ -97,6 +97,7 @@ alias l='ls -l'
 alias la='ls -a'
 alias lla='ls -la'
 alias lt='ls --tree'
+alias man="batman"
 
 
 alias sshpi='ssh pi@192.168.188.129'

@@ -1,0 +1,32 @@
+# Configuration file for the vimiv image viewer
+# Please refer to vimivrc(5) for further information
+
+[GENERAL]
+start_fullscreen: no
+start_slideshow: no
+slideshow_delay: 5
+shuffle: no
+display_bar: no
+default_thumbsize: (128, 128)
+rescale_svg: yes
+commandline_padding: 6
+thumb_padding: 10
+completion_height: 200
+play_animations: yes
+
+[LIBRARY]
+start_show_library: no
+library_width: 350
+expand_lib: yes
+border_width: 0
+markup: <span style="italic" foreground="#F5D48F">
+show_hidden: no
+desktop_start_dir: ~/Pictures/Wallpapers/
+file_check_amount: 50
+
+[EDIT]
+autosave_images: yes
+
+[ALIASES]
+
+# vim:ft=config

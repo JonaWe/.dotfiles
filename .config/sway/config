@@ -6,6 +6,7 @@ set $slurp_window "$(swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible
 # set $wallpaper_shuffle "shuf -e -n1 ~/Pictures/Wallpapers/active/* | xargs swww img --transition-type center"
 set $wallpaper_shuffle "shuf -e -n1 ~/Pictures/Wallpapers/selection/* | xargs -I {} ln -sf {} ~/Pictures/Wallpapers/active.jpg"
 # set $ "wallpaper_set -e -n1 ~/Pictures/Wallpapers/active/* | xargs swww img --transition-type center"
+set $intellij-projects projects/dachs-webapp projects/gp-se-tut-ss-2024.explo
 
 input type:keyboard {
     xkb_layout "gcj"
@@ -29,8 +30,10 @@ output DP-2 scale 1.5 scale_filter linear position 0 0
 output eDP-1 scale 1 pos 320 1440
 # res = 1920x1200
 
+output HDMI-A-1 scale 1 position 0 0
 
-for_window [shell="xwayland"] title_format "[XW] %title"
+
+# for_window [shell="xwayland"] title_format "[XW] %title"
 
 # exec --no-startup-id swayidle.sh
 
@@ -328,13 +331,22 @@ assign [class="Signal"] $ws15
 assign [class="Element"] $ws15
 assign [class="Telegram"] $ws15
 assign [class="thunderbird"] $ws17
-for_window [class="calendar.proton.me__u_0"] move to workspace $ws16
+assign [class="Spotify"]  $ws11
+assign [class="jetbrains-idea"] $ws13
+assign [app_id="firefox"] $ws12
+# for_window [class="calendar.proton.me__u_0"] move to workspace $ws16
+# for_window [title="New Tab - Brave"] move to workspace $ws12
+assign [class="calendar.proton.me__u_0"] $ws16
 for_window [class="Spotify"] move to workspace $ws11
-assign [window_role="browser"] $ws18
+assign [instance="brave-browser"] $ws18
+# assign [window_role="browser"] $ws18
 
 for_window [class="Signal"] layout tabbed
 for_window [class="Element"] layout tabbed
 for_window [class="Telegram"] layout tabbed
+for_window [app_id="firefox"] layout tabbed
+
+for_window [class="jetbrains-idea"] layout tabbed
 
 for_window [title="File Transfer*"] floating enable
 for_window [class="jetbrains-toolbox"] floating disable
@@ -365,11 +377,19 @@ exec --no-startup-id element-desktop
 exec --no-startup-id spotify-launcher
 exec --no-startup-id swaymsg 'workspace 19; exec /usr/bin/kitty tmux new-session -A -s main'
 exec --no-startup-id protonmail-bridge --noninteractive
+# exec --no-startup-id swaymsg 'workspace 18; exec /usr/bin/brave; workspace 12; exec /usr/bin/brave'
 exec --no-startup-id brave
+exec --no-startup-id firefox
+# exec --no-startup-id swaymsg 'exec sleep 10; workspace 12; exec /usr/bin/brave'
 exec --no-startup-id swaymsg 'workspace 16; exec /usr/bin/brave --app=https://calendar.proton.me/u/0/'
 
+# exec --no-startup-id swaymsg 'workspace 12; exec /home/jona/.local/share/JetBrains/Toolbox/apps/intellij-idea-ultimate/bin/idea.sh /home/jona/projects/dachs-webapp/'
+# exec --no-startup-id swaymsg 'workspace 12; exec /home/jona/.local/share/JetBrains/Toolbox/apps/intellij-idea-ultimate/bin/idea.sh /home/jona/projects/gp-se-tut-ss-2024.explo/'
+
+exec --no-startup-id /home/jona/.local/share/JetBrains/Toolbox/apps/intellij-idea-ultimate/bin/idea.sh nosplash $intellij-projects
 
 # sets wallpaper
+# exec --no-startup-id swww init; $wallpaper_shuffle; swww img ~/Pictures/Wallpapers/active.jpg
 exec --no-startup-id swww init
 exec --no-startup-id $wallpaper_shuffle
 exec --no-startup-id swww img ~/Pictures/Wallpapers/active.jpg
