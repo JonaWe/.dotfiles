@@ -1,5 +1,3 @@
-ignore-empty-password
-
 clock
 timestr=%R
 datestr=%a, %e of %B

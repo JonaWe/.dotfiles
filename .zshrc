@@ -10,6 +10,7 @@ plugins=(
   web-search
   timer
   tmux
+  zsh-vi-mode
 )
 
 #ZSH_THEME="robbyrussell"
@@ -29,6 +30,12 @@ plugins=(
 
 ENABLE_CORRECTION=true
 CASE_SENSITIVE=false
+
+function zvm_config() {
+    ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
+}
+
+
 
 #ZSH_TMUX_AUTOSTART=true
 

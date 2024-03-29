@@ -1,0 +1,61 @@
+* {
+  all: unset;
+  font-family: FontAwesome, Roboto, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+}
+
+$fg: #FFFEFC;
+$bg: #1A1919;
+$grey: #424040;
+$yellow: #F5D487;
+
+.bar {
+  background-color: $bg;
+  padding: 6px;
+  color: $fg;
+}
+
+.bar-left {}
+.bar-right {}
+.workspaces-box { }
+.brightness-box { }
+
+.workspace-icon-unfocused {
+  color: $grey;
+}
+
+.workspace-icon-focused {
+  color: $fg;
+}
+
+.window-title {
+  font-size: 13px;
+}
+
+scale trough {
+  all: unset;
+  background-color: $grey;
+  border-radius: 100px;
+  min-height: 10px;
+  min-width: 100px;
+  // margin: 0 .3rem 0 .3rem;
+}
+
+.bribar trough highlight {
+  background-color: $yellow;
+  border-radius: 100px;
+}
+
+.brightness-icon {
+  color: $yellow;
+}
+
+.brightness-label {
+  // background-color: $yellow;
+}
+
+.mode {
+  padding: 0 8px;
+  font-size: 13px;
+  background-color: $grey;
+}

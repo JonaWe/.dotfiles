@@ -22,9 +22,9 @@ nnoremap <C-d> <C-d>zz
 nnoremap <C-u> <C-u>zz
 
 " Add undo break-points
-inoremap , ,<c-g>u
-inoremap . .<c-g>u
-inoremap ; ;<c-g>u
+inoremap , ,<c-g>
+inoremap . .<c-g>
+inoremap ; ;<c-g>
 
 " Better indent
 vnoremap < <gv

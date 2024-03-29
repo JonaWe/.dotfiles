@@ -6,6 +6,7 @@ set $slurp_window "$(swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible
 # set $wallpaper_shuffle "shuf -e -n1 ~/Pictures/Wallpapers/active/* | xargs swww img --transition-type center"
 set $wallpaper_shuffle "shuf -e -n1 ~/Pictures/Wallpapers/selection/* | xargs -I {} ln -sf {} ~/Pictures/Wallpapers/active.jpg"
 # set $ "wallpaper_set -e -n1 ~/Pictures/Wallpapers/active/* | xargs swww img --transition-type center"
+
 set $intellij-projects projects/dachs-webapp projects/gp-se-tut-ss-2024.explo
 
 input type:keyboard {
@@ -18,9 +19,10 @@ input type:keyboard {
 input type:touchpad {
     tap enable
     natural_scroll enable
-    # accel_profile adaptive
     pointer_accel 0.25
+    scroll_factor 0.5
 }
+    # accel_profile adaptive
 
 output DP-2 scale 1.5 scale_filter linear position 0 0
 # res = 3840x2160 * (1 / scale)
@@ -91,10 +93,35 @@ bindsym $mod+g exec swaync-client -t -sw
 
 bindsym $mod+shift+t exec ~/.local/bin/random_wallpaper.sh
 
+bindsym $mod+v exec rofi  -modi clipboard:/home/jona/dotfiles/.config/rofi/modis/clipboard-history-modi.sh -show clipboard -show-icons -theme clipboard
+
 # set $asd grim -g "$(swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | "\(.rect.x+.window_rect.x),\(.rect.y+.window_rect.y) \(.window_rect.width)x\(.window_rect.height)"' | slurp)" - | wl-copy
 
-bindsym Print exec "grim -g $slurp_window - | wl-copy"
-bindsym $mod+Print exec "grim -g '$(slurp)' - | wl-copy"
+#
+# Screen capture
+#
+set $screenshot 1 selected, 2 whole, 3 selected clipboard, 4 whole clipboard, 5 swappy
+mode "$screenshot" {
+    bindsym 1 exec 'grim -g "$(slurp)" ~/ps_$(date +"%Y%m%d%H%M%S").png', mode "default"
+    bindsym 2 exec 'grim ~/ps_$(date +"%Y%m%d%H%M%S").png', mode "default"
+    bindsym 3 exec 'grim -g "$(slurp)" - | wl-copy', mode "default"
+    bindsym 4 exec 'grim - | wl-copy', mode "default"
+    bindsym 5 exec 'grim -g "$(slurp)" - | swappy -f -', mode "default"
+
+# back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+Print mode "default"
+}
+
+bindsym $mod+Print mode "$screenshot"
+
+
+# bindsym Print exec "grim -g $slurp_window - | wl-copy"
+# bindsym $mod+Print exec "grim -g '$(slurp)' - | wl-copy"
+
+
+
 # # Screenshots
 # bindsym Print exec --no-startup-id maim --select "/home/$USER/Pictures/screenshots/$(date).png"
 # bindsym Ctrl+Print exec --no-startup-id maim --window $(xdotool getactivewindow) "/home/$USER/Pictures/screenshots/$(date).png"
@@ -126,8 +153,8 @@ bindsym Mod1+Tab workspace back_and_forth
 bindsym $mod+Shift+b move container to workspace back_and_forth; workspace back_and_forth
 
 # Split orientation
-bindsym $mod+s split h
-bindsym $mod+v split v
+# bindsym $mod+s split h
+# bindsym $mod+v split v
 
 # Toggle fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -152,17 +179,7 @@ bindsym $mod+Shift+c reload
 
 # bindsym $mod+Shift+e exec "swaymsg -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'swaymsg exit'"
 
-set $mode_layout (s)plit (t)abbet
-bindsym $mod+ctrl+l mode "$mode_layout
-mode "$mode_layout" {
-    bindsym s layout toggle split, mode "default"
-    bindsym t layout tabbed, mode "default"
-
-    # exit system mode: "Enter" or "Escape"
-    bindsym q mode "default"
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-}
+bindsym $mod+ctrl+l layout toggle split tabbed
 
 # Set shut down, restart and locking features
 # bindsym $mod+minus exec wlogout
@@ -227,6 +244,9 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
 bindsym XF86AudioNext exec --no-startup-id playerctl next
 bindsym XF86AudioPrev exec --no-startup-id playerctl previous
+
+bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set 10%+
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 10%-
 # }}}
 
 # Workspaces and Displays {{{
@@ -331,13 +351,12 @@ assign [class="Signal"] $ws15
 assign [class="Element"] $ws15
 assign [class="Telegram"] $ws15
 assign [class="thunderbird"] $ws17
-assign [class="Spotify"]  $ws11
+assign [instance="spotify"]  $ws11
 assign [class="jetbrains-idea"] $ws13
 assign [app_id="firefox"] $ws12
 # for_window [class="calendar.proton.me__u_0"] move to workspace $ws16
-# for_window [title="New Tab - Brave"] move to workspace $ws12
-assign [class="calendar.proton.me__u_0"] $ws16
-for_window [class="Spotify"] move to workspace $ws11
+assign [instance="calendar.proton.me__u_0"] $ws16
+# for_window [instance="spotify"] move to workspace $ws11
 assign [instance="brave-browser"] $ws18
 # assign [window_role="browser"] $ws18
 
@@ -351,13 +370,27 @@ for_window [class="jetbrains-idea"] layout tabbed
 for_window [title="File Transfer*"] floating enable
 for_window [class="jetbrains-toolbox"] floating disable
 
+# Zoom Meeting App
+# For pop up notification windows that don't use notifications api
+for_window [app_id="zoom" title="^zoom$"] border none, floating enable
+# For specific Zoom windows
+# for_window [app_id="zoom" title="^(Zoom|About|Settings)$"] border pixel, floating enable
+for_window [app_id="zoom" window_type="notification"] floating enable
+
+# for_window [app_id="zoom" title="Settings"] floating enable, floating_minimum_size 960 x 700
+# Open Zoom Meeting windows on a new workspace (a bit hacky)
+# for_window [app_id="zoom" title="Zoom Meeting(.*)?"] workspace next_on_output --create, move container to workspace current, floating disable, inhibit_idle open
+for_window [app_id="zoom" title="Zoom Meeting(.*)?"] inhibit_idle open
+
 # System applications
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-exec --no-startup-id nm-applet
+# exec --no-startup-id nm-applet
+exec --no-startup-id nm-applet --indicator
 exec --no-startup-id blueman-applet
 exec --no-startup-id /home/jona/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox --minimize
 exec --no-startup-id swaync
 exec --no-startup-id /home/jona/.local/bin/swayidle.sh
+exec --no-startup-id wl-paste --watch cliphist store
 
 # exec --no-startup-id xfce4-power-manager
 # exec --no-startup-id pamac-tray
@@ -374,17 +407,12 @@ exec --no-startup-id swaymsg 'workspace 17; exec /usr/bin/thunderbird'
 exec --no-startup-id signal-desktop
 exec --no-startup-id swaymsg 'workspace 15; exec /usr/bin/telegram-desktop'
 exec --no-startup-id element-desktop
-exec --no-startup-id spotify-launcher
+exec --no-startup-id spotify
 exec --no-startup-id swaymsg 'workspace 19; exec /usr/bin/kitty tmux new-session -A -s main'
 exec --no-startup-id protonmail-bridge --noninteractive
-# exec --no-startup-id swaymsg 'workspace 18; exec /usr/bin/brave; workspace 12; exec /usr/bin/brave'
 exec --no-startup-id brave
 exec --no-startup-id firefox
-# exec --no-startup-id swaymsg 'exec sleep 10; workspace 12; exec /usr/bin/brave'
-exec --no-startup-id swaymsg 'workspace 16; exec /usr/bin/brave --app=https://calendar.proton.me/u/0/'
-
-# exec --no-startup-id swaymsg 'workspace 12; exec /home/jona/.local/share/JetBrains/Toolbox/apps/intellij-idea-ultimate/bin/idea.sh /home/jona/projects/dachs-webapp/'
-# exec --no-startup-id swaymsg 'workspace 12; exec /home/jona/.local/share/JetBrains/Toolbox/apps/intellij-idea-ultimate/bin/idea.sh /home/jona/projects/gp-se-tut-ss-2024.explo/'
+exec --no-startup-id /usr/bin/brave --app=https://calendar.proton.me/u/0/
 
 exec --no-startup-id /home/jona/.local/share/JetBrains/Toolbox/apps/intellij-idea-ultimate/bin/idea.sh nosplash $intellij-projects
 

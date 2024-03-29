@@ -1,0 +1,148 @@
+    ;; "1": "󰲡",
+    ;; "2": "󰲣",
+    ;; "3": "󰲥",
+    ;; "4": "󰲧",
+    ;; "5": "󰲩",
+    ;; "6": "󰲫",
+    ;; "7": "󰲭",
+    ;; "8": "󰲯",
+    ;; "9": "󰲱",
+    ;; "10": "󰿭",
+(defvar WS_ICONS '{
+    "1": "1",
+    "2": "2",
+    "3": "3",
+    "4": "4",
+    "5": "5",
+    "6": "6",
+    "7": "7",
+    "8": "8",
+    "9": "9",
+    "10": "10",
+    "11": "",
+    "12": "",
+    "13": "",
+    "14": "",
+    "15": "",
+    "16": "",
+    "17": "",
+    "18": "",
+    "19": ""
+  }')
+
+(defpoll datetime
+  :interval "1s"
+  `date +'{"year":"%Y","month":"%m","day":"%d","hour":"%H","min":"%M","sec":"%S"}'`
+)
+
+(defpoll current-brightness :interval "1s" "brightnessctl -m -d amdgpu_bl1 | awk -F, '{print substr($4, 0, length($4)-1)}' | tr -d '%'")
+
+(defvar eww "/usr/bin/eww -c $HOME/.config/eww")
+
+
+(deflisten ws "./scripts/workspace.sh")
+
+(deflisten title "./scripts/window_title.sh")
+
+(deflisten mode "./scripts/mode.sh")
+
+(defwindow bar
+  :monitor 0
+  :geometry (geometry
+            :x "0px"
+            :y "0px"
+            :width "100%"
+            ;; :height "32px"
+            :anchor "top center")
+  :stacking "fg"
+  :exclusive true
+  (layout))
+
+
+(defwidget layout []
+  (box :class "bar" :orientation "horizontal" 
+    (box
+      :class "bar-left"
+      :orientation "horizontal"
+      :halign "start"
+      :space-evenly false
+      :spacing 16
+      (workspaces)
+      (mode)
+      (title)
+    )
+    (box
+      :class "bar-right"
+      :orientation "horizontal"
+      :halign "end"
+      :valign "center"
+      :space-evenly false
+      :spacing 16
+      (bat)
+      (bright)
+      (date)
+      (time)
+    )
+  )
+)
+
+(defwidget workspaces []
+  (box :class "workspaces-box"
+       :orientation "horizontal"
+       :space-evenly true :spacing 10 :space-evenly true
+       (for workspace in ws
+          (button :class " ${workspace.focused ? 'workspace-icon-focused' : 'workspace-icon-unfocused'} " :onclick "swaymsg workspace ${workspace.name}" {WS_ICONS[workspace.name]} )
+       )
+  )
+)
+
+
+(defvar bright false)
+;; Brightness Widgets ;;
+(defwidget bright []
+    (eventbox :onclick "${eww} update bright=${!bright}"   
+              ;; :onhoverlost "${eww} update bright=false"
+              (box    :orientation "h"  
+                      :space-evenly "false"  
+                      :spacing 8
+                      :class "brightness-box"
+
+                (label :class "brightness-label" 
+                       :text "${current-brightness}%")
+                (label :class "brightness-icon" 
+                       :text "")
+                (revealer :transition "slideright" 
+                          :reveal bright   
+                          :duration "350ms"
+                  (scale :class "bribar" 
+                         :value current-brightness 
+                         :onchange "brightnessctl set {}%" 
+                         :orientation "h" 
+                         :max 101 
+                         :min 0))
+                )))
+
+;; Battery Widgets ;;
+(defwidget bat []
+	(box	:orientation "h"	
+			:space-evenly "false"
+      (label :class "bat-label" :text "${battery-cappacity}%")
+	(label	:class "bat"		
+			:halign "end"		
+			:text battery	
+			:tooltip "Battery: ${battery-cappacity}%")))
+(defpoll battery			:interval "1s"	"scripts/battery.sh icon")
+(defpoll battery-cappacity	:interval "1s"	"scripts/battery.sh percent")
+
+
+(defwidget date [] "${datetime.day}.${datetime.month}.${datetime.year}")
+(defwidget time [] "${datetime.hour}:${datetime.min}")
+(defwidget title [] (label :class "window-title" :text {title}))
+(defwidget mode [] (label :class "mode" :text {mode} :visible { mode != "default" }))
+
+;; (defwidget greeter [?text name]
+;;   (box :orientation "horizontal"
+;;        :halign "center"
+;;     ;; "${time.hour}:${time.min}:${time.sec}"
+;;     (button :onclick "notify-send 'Hello' 'Hello, ${name}'"
+;;       "Greet")))

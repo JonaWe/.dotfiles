@@ -124,4 +124,5 @@ return {
         dependencies = { "nvim-lua/plenary.nvim" },
         config = true,
     },
+    "elkowar/yuck.vim",
 }
