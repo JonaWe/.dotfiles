@@ -9,6 +9,10 @@ set $wallpaper_shuffle "shuf -e -n1 ~/Pictures/Wallpapers/selection/* | xargs -I
 
 set $intellij-projects projects/dachs-webapp projects/gp-se-tut-ss-2024.explo
 
+set $laptop eDP-1 
+
+set $change_ws exec ~/dotfiles/.config/sway/scripts/workspace.sh 
+
 input type:keyboard {
     xkb_layout "gcj"
     xkb_options caps:ctrl_modifier
@@ -29,10 +33,15 @@ output DP-2 scale 1.5 scale_filter linear position 0 0
 # 1.5 = 2560x1440
 # y-offset = 1440
 # x-offsest = 2560-1920 / 2 = 320
-output eDP-1 scale 1 pos 320 1440
+output $laptop scale 1 pos 320 1440
 # res = 1920x1200
 
 output HDMI-A-1 scale 1 position 0 0
+
+# bindswitch --reload --locked lid:on output $laptop disable
+# bindswitch --reload --locked lid:off output $laptop enable
+bindswitch lid:on output $laptop disable
+bindswitch lid:off output $laptop enable
 
 
 # for_window [shell="xwayland"] title_format "[XW] %title"
@@ -290,25 +299,25 @@ set $ws19 19
 # workspace $ws3 output $s1
 
 # Switch to workspace
-bindsym $mod+1 workspace $ws1
-bindsym $mod+2 workspace $ws2
-bindsym $mod+3 workspace $ws3
-bindsym $mod+4 workspace $ws4
-bindsym $mod+5 workspace $ws5
-bindsym $mod+6 workspace $ws6
-bindsym $mod+7 workspace $ws7
-bindsym $mod+8 workspace $ws8
-bindsym $mod+9 workspace $ws9
-bindsym $mod+0 workspace $ws10
+bindsym $mod+1 $change_ws $ws1
+bindsym $mod+2 $change_ws $ws2
+bindsym $mod+3 $change_ws $ws3
+bindsym $mod+4 $change_ws $ws4
+bindsym $mod+5 $change_ws $ws5
+bindsym $mod+6 $change_ws $ws6
+bindsym $mod+7 $change_ws $ws7
+bindsym $mod+8 $change_ws $ws8
+bindsym $mod+9 $change_ws $ws9
+bindsym $mod+0 $change_ws $ws10
 
-bindsym $mod+m workspace $ws11
-bindsym $mod+slash workspace $ws12
-bindsym $mod+u workspace $ws15
-bindsym $mod+n workspace $ws16
-bindsym $mod+p workspace $ws13
-bindsym $mod+parenleft workspace $ws17
-bindsym $mod+i workspace $ws18
-bindsym $mod+o workspace $ws19
+bindsym $mod+m $change_ws $ws11
+bindsym $mod+slash $change_ws $ws12
+bindsym $mod+u $change_ws $ws15
+bindsym $mod+n $change_ws $ws16
+bindsym $mod+p $change_ws $ws13
+bindsym $mod+parenleft $change_ws $ws17
+bindsym $mod+i $change_ws $ws18
+bindsym $mod+o $change_ws $ws19
 
 bindsym $mod+Shift+m move container to workspace $ws11; workspace $ws11
 bindsym $mod+Shift+slash move container to workspace $ws12; workspace $ws12
