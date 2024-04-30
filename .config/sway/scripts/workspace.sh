@@ -24,5 +24,13 @@ if [ ! -z "$ACTIVE_ON_OTHER_MONITOR" ]; then
     exit 0
 fi
 
-# otherwise move the workspace to the current monitor
-swaymsg "[workspace=${WORKSPACE}] move workspace to output current"
+# check if the workspace exists
+WORKSPACE_EXISTS=$(swaymsg -t get_tree | jq --arg ws "$WORKSPACE" -r '.. | select(.type?=="workspace" and .name? == $ws)')
+# if the workspace exists move the workspace to the current monitor
+if [ ! -z "$WORKSPACE_EXISTS" ]; then
+    swaymsg "[workspace=${WORKSPACE}] move workspace to output current"
+    exit 0
+fi
+
+# otherwise create the workspace on the current monitor
+swaymsg workspace $WORKSPACE

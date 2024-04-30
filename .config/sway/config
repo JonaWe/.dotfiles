@@ -7,7 +7,7 @@ set $slurp_window "$(swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible
 set $wallpaper_shuffle "shuf -e -n1 ~/Pictures/Wallpapers/selection/* | xargs -I {} ln -sf {} ~/Pictures/Wallpapers/active.jpg"
 # set $ "wallpaper_set -e -n1 ~/Pictures/Wallpapers/active/* | xargs swww img --transition-type center"
 
-set $intellij-projects projects/dachs-webapp projects/gp-se-tut-ss-2024.explo
+set $intellij-projects projects/dachs-webapp projects/gp-se-ss-2024-team2-2 projects/gp-se-ss-2024-team2-3
 
 set $laptop eDP-1 
 
@@ -29,19 +29,21 @@ input type:touchpad {
     # accel_profile adaptive
 
 output DP-2 scale 1.5 scale_filter linear position 0 0
+# output DP-2 scale 1 scale_filter linear position 0 0
 # res = 3840x2160 * (1 / scale)
 # 1.5 = 2560x1440
 # y-offset = 1440
 # x-offsest = 2560-1920 / 2 = 320
+# output $laptop scale 1 pos 0 0
 output $laptop scale 1 pos 320 1440
 # res = 1920x1200
 
 output HDMI-A-1 scale 1 position 0 0
 
-# bindswitch --reload --locked lid:on output $laptop disable
-# bindswitch --reload --locked lid:off output $laptop enable
-bindswitch lid:on output $laptop disable
-bindswitch lid:off output $laptop enable
+bindswitch --reload --locked lid:on output $laptop disable
+bindswitch --reload --locked lid:off output $laptop enable
+# bindswitch lid:on output $laptop disable
+# bindswitch lid:off output $laptop enable
 
 
 # for_window [shell="xwayland"] title_format "[XW] %title"
@@ -418,10 +420,15 @@ exec --no-startup-id swaymsg 'workspace 15; exec /usr/bin/telegram-desktop'
 exec --no-startup-id element-desktop
 exec --no-startup-id spotify
 exec --no-startup-id swaymsg 'workspace 19; exec /usr/bin/kitty tmux new-session -A -s main'
+# TODO: verify that this works
+# exec --no-startup-id kitty --directory /home/jona/vault/personal -e "/home/jona/.local/share/bob/nvim-bin/nvim /home/jona/vault/personal/Home.md"
 exec --no-startup-id protonmail-bridge --noninteractive
 exec --no-startup-id brave
 exec --no-startup-id firefox
 exec --no-startup-id /usr/bin/brave --app=https://calendar.proton.me/u/0/
+exec --no-startup-id /home/jona/projects/steh/steh.sh 30
+exec --no-startup-id syncthing
+exec --no-startup-id syncthingtray
 
 exec --no-startup-id /home/jona/.local/share/JetBrains/Toolbox/apps/intellij-idea-ultimate/bin/idea.sh nosplash $intellij-projects
 

@@ -8,6 +8,18 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     pattern = "*",
 })
 
+-- overwrite default find file behavior inside of obsidian vaults
+vim.api.nvim_create_autocmd("BufEnter", {
+    pattern = "/home/jona/vault/personal/*",
+    callback = function()
+        vim.keymap.set(
+            "n",
+            "<leader><space>",
+            "<cmd>ObsidianSearch<cr>",
+            { silent = true, desc = "Search Obsidian Vault" }
+        )
+    end,
+})
 
 --create auto command to set wrap on for markdown, latex and other different kinds of text files in the buffer
 vim.api.nvim_create_autocmd("FileType", {
@@ -100,12 +112,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
         map("n", "K", vim.lsp.buf.hover, "Hover")
         map("n", "gi", "<cmd>Telescope lsp_implementations<cr>", "Goto Implementation")
         map("n", "<leader>cr", vim.lsp.buf.rename, "Rename")
-        map({ "n", "v" }, "<space>ca", require("actions-preview").code_actions,"Code Actions")
+        map({ "n", "v" }, "<space>ca", require("actions-preview").code_actions, "Code Actions")
         map("n", "gr", "<cmd>Telescope lsp_references<cr>", "References")
         map({ "n", "v" }, "<leader>cf", function()
             require("conform").format({
                 bufnr = ev.buf,
-                timeout_ms = 500,
+                timeout_ms = 2000,
                 lsp_fallback = true,
             })
         end, "Format")

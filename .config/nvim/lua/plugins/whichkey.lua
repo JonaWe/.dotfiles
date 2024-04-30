@@ -21,6 +21,7 @@ return {
                 g = { name = "+Git" },
                 l = { name = "+Latex" },
                 t = { name = "+Trouble" },
+                o = { name = "+Obsidian" },
             }, { prefix = "<leader>" })
         end,
     },

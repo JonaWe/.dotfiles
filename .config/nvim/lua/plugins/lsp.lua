@@ -44,21 +44,21 @@ return {
             },
         },
     },
-    {
-        "j-hui/fidget.nvim",
-        lazy = false,
-        opts = {
-            progress = {
-                suppress_on_insert = true,
-                ignore = { "ltex" },
-                display = {
-                    overrides = {
-                        ltex = { name = "LTex" },
-                    },
-                },
-            },
-        },
-    },
+    -- {
+    --     "j-hui/fidget.nvim",
+    --     lazy = false,
+    --     opts = {
+    --         progress = {
+    --             suppress_on_insert = true,
+    --             ignore = { "ltex" },
+    --             display = {
+    --                 overrides = {
+    --                     ltex = { name = "LTex" },
+    --                 },
+    --             },
+    --         },
+    --     },
+    -- },
     {
         "mrcjkb/rustaceanvim",
         version = "^4",
@@ -104,7 +104,8 @@ return {
                             filetypes = { "tex" },
                             settings = {
                                 ltex = {
-                                    language = "en-US",
+                                    -- language = "en-US",
+                                    language = "de-DE",
                                 },
                             },
                         })
@@ -120,11 +121,26 @@ return {
         end,
     },
     {
+        "ray-x/go.nvim",
+        dependencies = { -- optional packages
+            "ray-x/guihua.lua",
+        },
+        config = function()
+            require("go").setup()
+        end,
+        event = { "CmdlineEnter" },
+        ft = { "go", "gomod" },
+        build = ":lua require(\"go.install\").update_all_sync()", -- if you need to install/update all binaries
+    },
+
+    {
         "stevearc/conform.nvim",
         opts = {
             formatters_by_ft = {
                 lua = { "stylua" },
                 tex = { "latexindent" },
+                python = { "isort", "black" },
+
             },
             formatters = {
                 latexindent = {
