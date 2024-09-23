@@ -9,6 +9,15 @@ set commentary
 
 nmap <leader>t <Action>(ActivateTerminalToolWindow)
 
+nmap <leader><space> <Action>(SearchEverywhere)
+nmap <leader>pa <Action>(VimFindActionIdAction)
+nmap <leader>pr <Action>(IdeaVim.ReloadVimRc.reload)
+nmap <leader>ca <Action>(ShowIntentionActions)
+nmap <leader>cf <Action>(ReformatCode)
+nmap <leader>cr <Action>(RenameElement)
+
+nnoremap <C-w>q :q<cr>
+
 nnoremap J mzJ`z
 
 inoremap jk <Esc>

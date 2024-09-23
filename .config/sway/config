@@ -1,3 +1,5 @@
+# include /etc/sway/config.d/*
+
 set $mod Mod4
 set $term kitty
 # set $asd grim -g "$(swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | "\(.rect.x+.window_rect.x),\(.rect.y+.window_rect.y) \(.window_rect.width)x\(.window_rect.height)"' | slurp)" - | wl-copy
@@ -7,7 +9,7 @@ set $slurp_window "$(swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible
 set $wallpaper_shuffle "shuf -e -n1 ~/Pictures/Wallpapers/selection/* | xargs -I {} ln -sf {} ~/Pictures/Wallpapers/active.jpg"
 # set $ "wallpaper_set -e -n1 ~/Pictures/Wallpapers/active/* | xargs swww img --transition-type center"
 
-set $intellij-projects projects/dachs-webapp projects/gp-se-ss-2024-team2-2 projects/gp-se-ss-2024-team2-3
+set $intellij-projects projects/dachs-webapp
 
 set $laptop eDP-1 
 
@@ -39,6 +41,9 @@ output $laptop scale 1 pos 320 1440
 # res = 1920x1200
 
 output HDMI-A-1 scale 1 position 0 0
+# output DP-8 mode 2560x1440@144Hz position 0 0
+output DP-8 position 0 0
+output DP-7 position 2560 180
 
 bindswitch --reload --locked lid:on output $laptop disable
 bindswitch --reload --locked lid:off output $laptop enable
@@ -96,7 +101,7 @@ bindsym $mod+Ctrl+m exec pavucontrol
 # Start Applications
 # bindsym $mod+Ctrl+b exec $term -e 'bmenu'
 # bindsym $mod+o exec brave
-bindsym $mod+e exec $term ranger
+bindsym $mod+e exec pcmanfm
 # bindsym $mod+p exec pamac-manager
 bindsym $mod+t exec $term btop
 
@@ -164,8 +169,8 @@ bindsym Mod1+Tab workspace back_and_forth
 bindsym $mod+Shift+b move container to workspace back_and_forth; workspace back_and_forth
 
 # Split orientation
-# bindsym $mod+s split h
-# bindsym $mod+v split v
+# bindsym $mod+Shift+s split h
+bindsym $mod+Shift+v split v
 
 # Toggle fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -213,10 +218,10 @@ mode "$mode_system" {
 set $mode_resize Resize
 bindsym $mod+r mode "$mode_resize"
 mode "$mode_resize" {
-        bindsym j resize shrink height 5 px or 5 ppt
-        bindsym k resize grow height 5 px or 5 ppt
-        bindsym l resize grow width 5 px or 5 ppt
-        bindsym h resize shrink width 5 px or 5 ppt
+        bindsym j resize grow height 50 px or 50 ppt
+        bindsym k resize shrink height 50 px or 50 ppt
+        bindsym l resize grow width 50 px or 50 ppt
+        bindsym h resize shrink width 50 px or 50 ppt
 
         # exit resize mode: Enter or Escape
         bindsym q mode "default"
@@ -248,10 +253,10 @@ mode "$playerctl" {
 #     bindsym Escape mode "default"
 # }
 
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% 
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% 
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle 
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle 
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
 bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
 bindsym XF86AudioNext exec --no-startup-id playerctl next
 bindsym XF86AudioPrev exec --no-startup-id playerctl previous
@@ -275,6 +280,9 @@ set $ws9 9
 set $ws10 10
 
 set $ws11 11
+set $ws12 12
+set $ws13 13
+set $ws14 14
 set $ws15 15
 set $ws16 16
 set $ws17 17
@@ -314,9 +322,10 @@ bindsym $mod+0 $change_ws $ws10
 
 bindsym $mod+m $change_ws $ws11
 bindsym $mod+slash $change_ws $ws12
+bindsym $mod+p $change_ws $ws13
+bindsym $mod+comma $change_ws $ws14
 bindsym $mod+u $change_ws $ws15
 bindsym $mod+n $change_ws $ws16
-bindsym $mod+p $change_ws $ws13
 bindsym $mod+parenleft $change_ws $ws17
 bindsym $mod+i $change_ws $ws18
 bindsym $mod+o $change_ws $ws19
@@ -329,6 +338,7 @@ bindsym $mod+Shift+p move container to workspace $ws13; workspace $ws13
 bindsym $mod+Shift+parenleft move container to workspace $ws17; workspace $ws17
 bindsym $mod+Shift+i move container to workspace $ws18; workspace $ws18
 bindsym $mod+Shift+o move container to workspace $ws19; workspace $ws19
+bindsym $mod+Shift+comma move container to workspace $ws14; workspace $ws14
 
 # Move focused container to workspace
 bindsym $mod+Ctrl+1 move container to workspace $ws1
@@ -364,7 +374,9 @@ assign [class="Telegram"] $ws15
 assign [class="thunderbird"] $ws17
 assign [instance="spotify"]  $ws11
 assign [class="jetbrains-idea"] $ws13
+assign [class="obsidian"] $ws14
 assign [app_id="firefox"] $ws12
+assign [title="Obsidian Terminal"] $ws14
 # for_window [class="calendar.proton.me__u_0"] move to workspace $ws16
 assign [instance="calendar.proton.me__u_0"] $ws16
 # for_window [instance="spotify"] move to workspace $ws11
@@ -375,6 +387,7 @@ for_window [class="Signal"] layout tabbed
 for_window [class="Element"] layout tabbed
 for_window [class="Telegram"] layout tabbed
 for_window [app_id="firefox"] layout tabbed
+for_window [class="obsidian"] layout tabbed
 
 for_window [class="jetbrains-idea"] layout tabbed
 
@@ -426,9 +439,11 @@ exec --no-startup-id protonmail-bridge --noninteractive
 exec --no-startup-id brave
 exec --no-startup-id firefox
 exec --no-startup-id /usr/bin/brave --app=https://calendar.proton.me/u/0/
-exec --no-startup-id /home/jona/projects/steh/steh.sh 30
+# exec --no-startup-id /home/jona/projects/steh/steh.sh 30
+exec --no-startup-id obsidian
+exec --no-startup-id kitty --title "Obsidian Terminal" -e zsh 'cd ~/vault/personal && nvim Home.md'
 exec --no-startup-id syncthing
-exec --no-startup-id syncthingtray
+exec --no-startup-id "sleep 10; syncthingtray"
 
 exec --no-startup-id /home/jona/.local/share/JetBrains/Toolbox/apps/intellij-idea-ultimate/bin/idea.sh nosplash $intellij-projects
 

@@ -98,6 +98,35 @@ return {
                             require("lspconfig")[server_name].setup({})
                         end
                     end,
+                    ["omnisharp"] = function()
+
+
+
+                        local pid = vim.fn.getpid()
+
+                        -- disables the omnisharp.useModernNet flag
+                        require("lspconfig").omnisharp.setup({
+                            cmd = {
+                                "omnisharp",
+                                "--languageserver",
+                                "--hostPID",
+                                tostring(pid),
+                                "--useModernNet",
+                                "false",
+                            },
+                            -- root_dir = require("lspconfig").util.root_pattern(".git", "*.sln", "*.csproj"),
+                            -- handlers = {
+                            --     ["textDocument/definition"] = require("omnisharp_extended").handler,
+                            -- },
+                            -- Additional settings for omnisharp
+                            -- settings = {
+                            --     omnisharp = {
+                            --         useModernNet = false,
+                            --         -- other settings
+                            --     },
+                            -- },
+                        })
+                    end,
                     ["ltex"] = function()
                         local lspconfig = require("lspconfig")
                         lspconfig.ltex.setup({
@@ -140,7 +169,6 @@ return {
                 lua = { "stylua" },
                 tex = { "latexindent" },
                 python = { "isort", "black" },
-
             },
             formatters = {
                 latexindent = {

@@ -8,6 +8,32 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     pattern = "*",
 })
 
+
+
+
+local disable_dir = vim.fn.expand('$HOME/vault') .. '/*'
+
+vim.api.nvim_create_autocmd({"LspAttach"}, {
+  pattern = disable_dir,
+  callback = function (args)
+    if not args['data'] or not args.data['client_id'] then return end
+
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if client.name == 'copilot' then
+      vim.lsp.stop_client(client.id, true)
+    end
+  end
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "qf",
+    callback = function ()
+        -- TODO: highlight the line
+        vim.keymap.set("n", "j", "j<cr><c-w>p", { buffer = true, silent = true })
+        vim.keymap.set("n", "k", "k<cr><c-w>p", { buffer = true, silent = true })
+    end
+})
+
 -- overwrite default find file behavior inside of obsidian vaults
 vim.api.nvim_create_autocmd("BufEnter", {
     pattern = "/home/jona/vault/personal/*",
@@ -50,6 +76,13 @@ vim.api.nvim_create_autocmd("BufReadPre", {
                 )
             end,
         })
+    end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "markdown",
+    callback = function()
+        vim.diagnostic.config({ virtual_text = false })
     end,
 })
 

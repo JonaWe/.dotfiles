@@ -9,4 +9,8 @@ exec swayidle -w \
      timeout 420 'swaymsg "output * dpms off"' \
           resume 'swaymsg "output * dpms on"' \
      before-sleep "$lock" \
-     lock "$lock fast"
+     lock "$lock fast" &
+
+echo $! > /tmp/swayidle.pid
+
+pkill -RTMIN+10 waybar

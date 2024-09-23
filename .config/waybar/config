@@ -8,7 +8,7 @@
     // Choose the order of the modules
     "modules-left": ["sway/workspaces", "sway/mode", "sway/scratchpad", "custom/media", "sway/window"],
     "modules-center": [],
-    "modules-right": ["custom/notification", "mpd", "pulseaudio", "network", "cpu", "memory", "temperature", "backlight", "battery", "battery#bat2", "clock",  "tray"],
+    "modules-right": ["custom/swayidle", "custom/notification", "mpd", "pulseaudio", "network", "cpu", "memory", "temperature", "backlight", "battery", "battery#bat2", "clock",  "tray"],
     // Modules configuration
     "sway/workspaces": {
         //     "disable-scroll": true,
@@ -29,6 +29,7 @@
             "11": "",
             "12": "",
             "13": "",
+            "14": "",
             "15": "",
             "16": "",
             "17": "",
@@ -141,14 +142,15 @@
     "network": {
         // "interface": "wlp2*", // (Optional) To force the use of this interface
         "format-wifi": "{essid} ({signalStrength}%) ",
-        "format-ethernet": "{ipaddr}/{cidr} ",
-        "tooltip-format": "{ifname} via {gwaddr} ",
+        //"format-ethernet": "{ipaddr}/{cidr} ",
+        "format-ethernet": "",
+        "tooltip-format": "using {ifname} on {ipaddr}/{cidr} via {gwaddr}",
         "format-linked": "{ifname} (No IP) ",
         "format-disconnected": "Disconnected ⚠",
         "format-alt": "{ifname}: {ipaddr}/{cidr}"
     },
     "pulseaudio": {
-        // "scroll-step": 1, // %, can be a float
+        "scroll-step": 1, // %, can be a float
         "format": "{volume}% {icon} {format_source}",
         "format-bluetooth": "{volume}% {icon} {format_source}",
         "format-bluetooth-muted": " {icon} {format_source}",
@@ -166,20 +168,9 @@
         },
         "on-click": "pavucontrol"
     },
-    "custom/media": {
-        "format": "{icon} {}",
-        "return-type": "json",
-        "max-length": 40,
-        "format-icons": {
-            "spotify": "",
-            "default": "🎜"
-        },
-        "escape": true,
-        "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
-        // "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
-    },
     "custom/notification": {
-        "tooltip": false,
+        "tooltip": true,
+        "tooltip-format": "You currently have {} new notifications",
         "format": "{}  {icon}",
         "format-icons": {
             "notification": "",
@@ -197,6 +188,15 @@
         "on-click": "swaync-client -t -sw",
         "on-click-right": "swaync-client -d -sw",
         "escape": true
+    },
+    "custom/swayidle": {
+        "format": "{} ",
+        "exec": "if pgrep swayidle > /dev/null; then echo 'On'; else echo 'Off'; fi",
+        "interval": 5,
+        "tooltip": true,
+        "tooltip-format": "Swayidle is currently '{}'",
+        "on-click": "/bin/bash -c 'pgrep swayidle && ~/dotfiles/.local/bin/stop_swayidle.sh || ~/dotfiles/.local/bin/swayidle.sh'",
+        "signal": 10
     }
 }
 
