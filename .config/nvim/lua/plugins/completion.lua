@@ -69,7 +69,7 @@ return {
                 sources = cmp.config.sources({
                     { name = "nvim_lua" },
                     { name = "nvim_lsp" },
-                    { name = "copilot" },
+                    -- { name = "copilot" },
                     { name = "path" },
                     { name = "obsidian" },
                     { name = "emoji" },
@@ -79,7 +79,7 @@ return {
                 sorting = {
                     priority_weight = 2,
                     comparators = {
-                        require("copilot_cmp.comparators").prioritize,
+                        -- require("copilot_cmp.comparators").prioritize,
 
                         -- Below is the default comparitor list and order for nvim-cmp
                         cmp.config.compare.offset,
