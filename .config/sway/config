@@ -94,7 +94,7 @@ bindsym $mod+q kill
 
 # start program launcher
 bindsym $mod+d exec --no-startup-id rofi -show drun -show-icons
-
+bindsym $mod+Shift+d exec --no-startup-id rofi -show calc -modi calc -no-show-match -no-sort -calc-command "echo '{result}' | wl-copy"
 bindsym $mod+Ctrl+m exec pavucontrol
 
 # Start Applications
@@ -108,7 +108,7 @@ bindsym $mod+g exec swaync-client -t -sw
 
 bindsym $mod+shift+t exec ~/.local/bin/random_wallpaper.sh
 
-bindsym $mod+v exec rofi  -modi clipboard:/home/jona/dotfiles/.config/rofi/modis/clipboard-history-modi.sh -show clipboard -show-icons -theme clipboard
+bindsym $mod+v exec rofi -modi clipboard:/home/jona/dotfiles/.config/rofi/modis/clipboard-history-modi.sh -show clipboard -show-icons -theme clipboard
 
 # set $asd grim -g "$(swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | "\(.rect.x+.window_rect.x),\(.rect.y+.window_rect.y) \(.window_rect.width)x\(.window_rect.height)"' | slurp)" - | wl-copy
 
@@ -445,6 +445,8 @@ exec --no-startup-id syncthing
 exec --no-startup-id "sleep 10; syncthingtray"
 
 exec --no-startup-id /home/jona/.local/share/JetBrains/Toolbox/apps/intellij-idea-ultimate/bin/idea.sh nosplash $intellij-projects
+
+exec --no-startup-id wlsunset -L 52 -T 4500 -g 1..0 -l 9 -t 3000
 
 # sets wallpaper
 # exec --no-startup-id swww init; $wallpaper_shuffle; swww img ~/Pictures/Wallpapers/active.jpg

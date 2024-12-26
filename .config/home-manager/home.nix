@@ -1,10 +1,15 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  inputs,
+  ...
+}: {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "jona";
   home.homeDirectory = "/home/jona";
+
+  targets.genericLinux.enable = true;
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -17,14 +22,12 @@
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = [
-
+  home.packages = with pkgs; [
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
     # # fonts?
-    (pkgs.nerdfonts.override { fonts = [ "FiraCode" ]; })
-
+    (nerdfonts.override {fonts = ["FiraCode"];})
 
     # # You can also create simple shell scripts directly inside your
     # # configuration. For example, this adds a command 'my-hello' to your
@@ -32,33 +35,44 @@
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
-    pkgs.openvpn
+    openvpn
+    wlsunset
+    neovim
+    tmux
+    # kitty
     # pkgs.prismlauncher
     # pkgs.glfw-wayland
     # pkgs.glfw
+    # code editing
+    alejandra
+    nixd
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
   home.file = {
-    # # Building this configuration will create a copy of 'dotfiles/screenrc' in
-    # # the Nix store. Activating the configuration will then make '~/.screenrc' a
-    # # symlink to the Nix store copy.
-    # ".screenrc".source = dotfiles/screenrc;
+    # "kitty/kitty.conf".source = /home/jona/dotfiles/config/kitty/kitty.conf;
 
-    # # You can also set the file content immediately.
-    # ".gradle/gradle.properties".text = ''
-    #   org.gradle.console=verbose
-    #   org.gradle.daemon.idletimeout=3600000
-    # '';
+    # "${config.xdg.configHome}" = {
+    #     "tmux/tmux.conf".source = ../../config/tmux/tmux.conf;
+    # };
+    # "tmux/tmux.conf".source = dotfiles/config/tmux/tmux.conf;
   };
   programs.starship.enable = true;
   programs.zoxide.enable = true;
   programs.btop.enable = true;
+  programs.bat.enable = true;
+  programs.fd.enable = true;
+  programs.fzf.enable = true;
+  programs.ripgrep.enable = true;
+  # programs.zathura.enable = true;
   programs.lsd = {
     enable = true;
   };
-  programs.tmux.enable = true;
+  # programs.tmux = {
+  #   enable = true;
+  #   # prefix = "C-s";
+  # };
   # programs.kitty = {
   #   enable = true;
   #   font.name = "FiraCode Nerd Font";
@@ -67,6 +81,9 @@
     enable = true;
     userName = "Jona";
     userEmail = "jona@example.com";
+  };
+  programs.lazygit = {
+    enable = true;
   };
   programs.zsh = {
     enable = true;
@@ -84,6 +101,20 @@
     };
   };
 
+  # services.wlsunset = {
+  #   enable = true;
+  #   longitude = 52;
+  #   latitude = 9;
+  #   temperature = {
+  #     #day = 4000;
+  #     day = 6500;
+  #     night = 4000;
+  #     #night = 6500;
+  #   };
+  # };
+
+  # wayland.windowManager.hyprland.enable = true; # enable Hyprland
+  # programs.kitty.enable = true; # required for the default Hyprland config
 
   # Home Manager can also manage your environment variables through
   # 'home.sessionVariables'. These will be explicitly sourced when using a
@@ -102,7 +133,7 @@
   #  /etc/profiles/per-user/jona/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    # EDITOR = "emacs";
+    EDITOR = "nvim";
   };
 
   # Let Home Manager install and manage itself.

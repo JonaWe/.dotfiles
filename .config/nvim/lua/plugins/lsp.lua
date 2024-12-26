@@ -75,6 +75,24 @@ return {
             "hrsh7th/cmp-nvim-lsp-signature-help",
         },
         config = function()
+            -- require("lspconfig").nixd.setup({})
+            require("lspconfig").nixd.setup({
+                cmd = { "nixd" },
+                settings = {
+                    nixd = {
+                        nixpkgs = {
+                            expr = "import (builtins.getFlake \"/home/jona/dotfiles/.config/home-manager/flake.nix\").inputs.nixpkgs { }",
+                        },
+
+                        formatting = { command = { "alejandra" } },
+                    },
+                    options = {
+                        home_manager = {
+                            expr = "(import <home-manager/modules> { configuration = ~/dotfiles/.config/home-manager/flake.nix; pkgs = import <nixpkgs> {}; }).options",
+                        },
+                    },
+                },
+            })
             require("mason-lspconfig").setup({
                 ensure_installed = {
                     "pyright",
@@ -83,7 +101,6 @@ return {
                     "lua_ls",
                     "rust_analyzer",
                     "jdtls",
-                    "tsserver",
                     "tailwindcss",
                     "eslint",
                     "kotlin_language_server",
@@ -91,41 +108,13 @@ return {
                     "omnisharp",
                     "ltex",
                     "texlab",
+                    "nixd",
                 },
                 handlers = {
                     function(server_name)
                         if server_name ~= "rust_analyzer" then
                             require("lspconfig")[server_name].setup({})
                         end
-                    end,
-                    ["omnisharp"] = function()
-
-
-
-                        local pid = vim.fn.getpid()
-
-                        -- disables the omnisharp.useModernNet flag
-                        require("lspconfig").omnisharp.setup({
-                            cmd = {
-                                "omnisharp",
-                                "--languageserver",
-                                "--hostPID",
-                                tostring(pid),
-                                "--useModernNet",
-                                "false",
-                            },
-                            -- root_dir = require("lspconfig").util.root_pattern(".git", "*.sln", "*.csproj"),
-                            -- handlers = {
-                            --     ["textDocument/definition"] = require("omnisharp_extended").handler,
-                            -- },
-                            -- Additional settings for omnisharp
-                            -- settings = {
-                            --     omnisharp = {
-                            --         useModernNet = false,
-                            --         -- other settings
-                            --     },
-                            -- },
-                        })
                     end,
                     ["ltex"] = function()
                         local lspconfig = require("lspconfig")

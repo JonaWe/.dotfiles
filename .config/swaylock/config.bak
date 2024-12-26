@@ -1,7 +1,12 @@
+clock
+timestr=%R
+datestr=%a, %e of %B
+
 image=~/Pictures/Wallpapers/active.jpg
 
-indicator-radius=120
-indicator-thickness=7
+indicator
+indicator-radius=200
+indicator-thickness=10
 indicator-caps-lock
 
 

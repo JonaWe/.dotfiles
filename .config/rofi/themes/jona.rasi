@@ -5,6 +5,14 @@ configuration {
     display-name: "";
   }
 
+  calc {
+    display-name: "󱖦";
+  }
+
+  clipboard {
+    display-name: "";
+  }
+
   timeout {
     delay: 15;
     action: "kb-cancel";
